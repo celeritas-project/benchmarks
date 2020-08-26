@@ -12,14 +12,14 @@
 
 //---------------------------------------------------------------------------//
 /*!
- * Some help
+ * Used in previous tests. Keeping it for now.
  */
 class TrackingAction : public G4UserTrackingAction
 {
-public:
-  TrackingAction();
-  ~TrackingAction();
+  public:
+    TrackingAction();
+    ~TrackingAction();
 
-  void PreUserTrackingAction(const G4Track* track) override;
-  void PostUserTrackingAction(const G4Track* track) override;
+    void PreUserTrackingAction(const G4Track* track) override;
+    void PostUserTrackingAction(const G4Track* track) override;
 };

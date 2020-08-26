@@ -19,13 +19,13 @@ class G4Run;
 // Create and write the output root file to disk
 class RunAction : public G4UserRunAction
 {
-public:
+  public:
     RunAction();
     ~RunAction();
 
-    void BeginOfRunAction(const G4Run *run) override;
-    void EndOfRunAction(const G4Run *) override;
+    void BeginOfRunAction(const G4Run* run) override;
+    void EndOfRunAction(const G4Run*) override;
 
-protected:
+  protected:
     void CreateRootNtuples();
 };

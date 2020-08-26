@@ -4,11 +4,9 @@
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
 //! \file DetectorConstruction.hh
-//! \brief Creates the detector geometry 
+//! \brief Creates the detector geometry
 //---------------------------------------------------------------------------//
 #pragma once
-
-#include <string>
 
 #include <G4VUserDetectorConstruction.hh>
 #include <G4GDMLParser.hh>
@@ -20,7 +18,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
   public:
     DetectorConstruction();
     ~DetectorConstruction();
-    
+
     //! Geometry is coded here
     G4VPhysicalVolume* Construct() override;
 };

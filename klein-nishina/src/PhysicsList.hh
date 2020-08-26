@@ -17,12 +17,12 @@
  * Electrons and positrons will need to be killed in order to provide a better
  * comparison with Celeritas
  */
-class PhysicsList: public G4VUserPhysicsList
+class PhysicsList : public G4VUserPhysicsList
 {
   public:
     PhysicsList();
-   ~PhysicsList();
+    ~PhysicsList();
 
     void ConstructParticle() override;
-    void ConstructProcess() override; 
+    void ConstructProcess() override;
 };

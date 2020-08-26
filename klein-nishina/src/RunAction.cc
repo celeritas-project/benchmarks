@@ -13,15 +13,13 @@
 
 //---------------------------------------------------------------------------//
 //! Default constructor and destructor
-RunAction::RunAction() : G4UserRunAction()
-{
-}
+RunAction::RunAction() : G4UserRunAction() {}
 
 RunAction::~RunAction() = default;
 
 //---------------------------------------------------------------------------//
-//! Create the root file and it's ntuple structure
-void RunAction::BeginOfRunAction(const G4Run *run)
+//! Create the root file and its ntuple structure
+void RunAction::BeginOfRunAction(const G4Run* run)
 {
     auto analysis_manager = G4AnalysisManager::Instance();
     analysis_manager->OpenFile("out.root");
@@ -30,23 +28,19 @@ void RunAction::BeginOfRunAction(const G4Run *run)
 
 //---------------------------------------------------------------------------//
 //! Write the root file to disk
-void RunAction::EndOfRunAction(const G4Run * /*run*/)
+void RunAction::EndOfRunAction(const G4Run* /*run*/)
 {
-    G4AnalysisManager *analysis_manager = G4AnalysisManager::Instance();
+    G4AnalysisManager* analysis_manager = G4AnalysisManager::Instance();
     analysis_manager->Write();
     analysis_manager->CloseFile();
 }
 
 //---------------------------------------------------------------------------//
-/*!
- * Create the root ntuple structure at RunAction::BeginOfRunAction()
- * 
- * Detailed documentation regarding the step data being recorded can be found 
- * in SteppingAction.cc: SteppingAction::UserSteppingAction()
- */
+//! Create the root ntuple structure at RunAction::BeginOfRunAction()
+//! Ntuples are filled in SteppingAction.cc: UserSteppingAction()
 void RunAction::CreateRootNtuples()
 {
-    G4AnalysisManager *analysis_manager = G4AnalysisManager::Instance();
+    G4AnalysisManager* analysis_manager = G4AnalysisManager::Instance();
 
     // ntuple ID = 0
     analysis_manager->CreateNtuple("step", "step");
@@ -62,9 +56,9 @@ void RunAction::CreateRootNtuples()
     analysis_manager->CreateNtupleDColumn("x");
     analysis_manager->CreateNtupleDColumn("y");
     analysis_manager->CreateNtupleDColumn("z");
-    analysis_manager->CreateNtupleDColumn("px");
-    analysis_manager->CreateNtupleDColumn("py");
-    analysis_manager->CreateNtupleDColumn("pz");
+    analysis_manager->CreateNtupleDColumn("dir_x");
+    analysis_manager->CreateNtupleDColumn("dir_y");
+    analysis_manager->CreateNtupleDColumn("dir_z");
     analysis_manager->CreateNtupleIColumn("status");
     analysis_manager->CreateNtupleDColumn("global_time");
     analysis_manager->FinishNtuple();

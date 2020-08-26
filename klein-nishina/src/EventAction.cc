@@ -13,17 +13,13 @@
 
 //---------------------------------------------------------------------------//
 //! Constructor and destructor
-EventAction::EventAction() : G4UserEventAction()
-{
-}
+EventAction::EventAction() : G4UserEventAction() {}
 
 EventAction::~EventAction() = default;
 
 //---------------------------------------------------------------------------//
 //! Implementation of virtual functions
-void EventAction::BeginOfEventAction(const G4Event *event)
+void EventAction::BeginOfEventAction(const G4Event* event)
 {
     event_id_ = event->GetEventID();
 }
-
-//---------------------------------------------------------------------------//

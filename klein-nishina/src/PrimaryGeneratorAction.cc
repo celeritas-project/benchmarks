@@ -22,7 +22,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
     particle_gun_ = std::make_shared<G4ParticleGun>(number_of_particles);
 
     // Select gamma
-    G4ParticleDefinition *particle;
+    G4ParticleDefinition* particle;
     particle = G4ParticleTable::GetParticleTable()->FindParticle("gamma");
 
     // Particle gun setup
@@ -39,7 +39,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction() = default;
 //---------------------------------------------------------------------------//
 //! Implementation of a mandatory Geant4 virtual class method
 //! Method is called at the begining of each event
-void PrimaryGeneratorAction::GeneratePrimaries(G4Event *event)
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
     particle_gun_->GeneratePrimaryVertex(event);
 }

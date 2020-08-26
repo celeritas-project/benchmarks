@@ -11,17 +11,16 @@
 #include <G4UserEventAction.hh>
 
 //---------------------------------------------------------------------------//
-/*!
- * Some help
- */
+//! Executed at beginning/end of each event
 class EventAction : public G4UserEventAction
 {
-public:
-  EventAction();
-  ~EventAction();
+  public:
+    EventAction();
+    ~EventAction();
 
-  void BeginOfEventAction(const G4Event* event) override;
-  //void EndOfEventAction(const G4Event* event) override;
+    void BeginOfEventAction(const G4Event* event) override;
+    // void EndOfEventAction(const G4Event* event) override;
 
-  int event_id_;
+  public:
+    int event_id_;
 };

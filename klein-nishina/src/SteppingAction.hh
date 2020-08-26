@@ -14,16 +14,15 @@
 #include "DetectorConstruction.hh"
 #include "EventAction.hh"
 
-
 //---------------------------------------------------------------------------//
 //! Retrieves particle step data for the root file
 class SteppingAction : public G4UserSteppingAction
 {
-public:
-    SteppingAction(EventAction *event_action);
+  public:
+    SteppingAction(EventAction* event_action);
     ~SteppingAction();
-    
+
     void UserSteppingAction(const G4Step* step) override;
 
-    EventAction *event_action_;
+    EventAction* event_action_;
 };

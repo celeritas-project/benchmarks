@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
 //! \file geant4-celeritas-kn.cc
-//! \brief Compares Geant4 and Celeritas Klein-Nishina Compton scattering
+//! \brief Geant4 Klein-Nishina Compton scattering app
 //---------------------------------------------------------------------------//
 
 #include <G4RunManager.hh>
@@ -18,14 +18,20 @@
 
 //---------------------------------------------------------------------------//
 /*!
- * Small experiment to compare G4 Klein-Nishina Compton with Celeritas.
- * It loads gammas, electrons, and positrons, sets gamma as the primary
- * particle for the particle gun, with gammas only being subject to the 
- * Klein-Nishina Compton scattering and transportation.
+ * Small experiment to compare G4 Klein-Nishina Compton with Celeritas demo 
+ * app. The code
+ * 1. Loads Geometry
+ *    - Large cube of Fe
+ * 2. Loads limited particle and physics lists
+ *    - Loads gammas, electrons, and positrons 
+ *    - Sets gamma as the primary particle for the particle gun 
+ *    - Adds transport capabilities to all 3 particles
+ *    - Adds Klein-Nishina Compton scattering to gammas
+ * 4. Dumps physics tables so they can be imported in the Celeritas demo app
+ * 5. Stores simulation data into a ROOT output file
  */
 int main(int argc, char **argv)
 {
-
     G4RunManager run_manager;
 
     //! Initialize the geometry

@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
 //! \file ActionInitialization.hh
-//! \brief Calls any further classes, except for DetectorConstruction
+//! \brief Initializes all SetUserAction() kind of classes
 //---------------------------------------------------------------------------//
 #pragma once
 
@@ -15,6 +15,6 @@ class ActionInitialization : public G4VUserActionInitialization
   public:
     ActionInitialization();
     ~ActionInitialization();
-    
+
     void Build() const override;
 };

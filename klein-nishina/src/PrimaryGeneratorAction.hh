@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
 //! \file PrimaryGeneratorAction.hh
-//! \brief Responsible for defining the particle gun used in the Geant4 run
+//! \brief Defines the particle gun used in the Geant4 run
 //---------------------------------------------------------------------------//
 #pragma once
 
