@@ -50,14 +50,15 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     auto analysis_mgr = G4AnalysisManager::Instance();
 
     //! Filling ntuple 0
-    auto track = step->GetTrack();
-    auto pdg   = track->GetParticleDefinition()->GetPDGEncoding();
+    auto track       = step->GetTrack();
+    auto secondaries = step->GetNumberOfSecondariesInCurrentStep();
+    auto pdg         = track->GetParticleDefinition()->GetPDGEncoding();
     auto process
         = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
-    G4ThreeVector track_position = track->GetPosition();
-    G4ThreeVector track_dir      = track->GetMomentumDirection();
-    G4int         status         = step->GetPreStepPoint()->GetStepStatus();
-    G4double      global_time    = step->GetPostStepPoint()->GetGlobalTime();
+    auto track_position = track->GetPosition();
+    auto track_dir      = track->GetMomentumDirection();
+    auto status         = step->GetPreStepPoint()->GetStepStatus();
+    auto global_time    = step->GetPostStepPoint()->GetGlobalTime();
 
     // Ntuple 0 ID and column ID index
     // Makes it a bit easier to add/reorder ntuple columns
@@ -71,6 +72,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     analysis_mgr->FillNtupleIColumn(nt_0, id_0, track->GetParentID());
     id_0++;
     analysis_mgr->FillNtupleIColumn(nt_0, id_0, track->GetCurrentStepNumber());
+    id_0++;
+    analysis_mgr->FillNtupleIColumn(nt_0, id_0, secondaries);
     id_0++;
     analysis_mgr->FillNtupleIColumn(nt_0, id_0, pdg);
     id_0++;
@@ -111,6 +114,10 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         int nt_1 = 1;
         int id_1 = 0;
 
+        analysis_mgr->FillNtupleIColumn(nt_1, id_1, event_action_->event_id_);
+        id_1++;
+        analysis_mgr->FillNtupleIColumn(nt_1, id_1, track->GetTrackID());
+        id_1++;
         analysis_mgr->FillNtupleIColumn(nt_1, id_1, pdg);
         id_1++;
         analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex_E_k);

@@ -27,7 +27,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
     // Create all used materials
     G4NistManager* nist     = G4NistManager::Instance();
-    G4Material*    material = nist->FindOrBuildMaterial("G4_Fe");
+    G4Material*    material = nist->FindOrBuildMaterial("G4_Al");
 
     // Define size of all objects
     double world_size = 100 * km;

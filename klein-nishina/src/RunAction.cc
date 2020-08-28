@@ -48,6 +48,7 @@ void RunAction::CreateRootNtuples()
     analysis_manager->CreateNtupleIColumn("track_id");
     analysis_manager->CreateNtupleIColumn("parent_id");
     analysis_manager->CreateNtupleIColumn("step_number");
+    analysis_manager->CreateNtupleIColumn("secondaries");
     analysis_manager->CreateNtupleIColumn("pdg");
     analysis_manager->CreateNtupleSColumn("process");
     analysis_manager->CreateNtupleDColumn("energy_loss");
@@ -65,6 +66,8 @@ void RunAction::CreateRootNtuples()
 
     // ntuple ID = 1
     analysis_manager->CreateNtuple("vertex", "vertex");
+    analysis_manager->CreateNtupleIColumn("event");
+    analysis_manager->CreateNtupleIColumn("track_id");
     analysis_manager->CreateNtupleIColumn("pdg");
     analysis_manager->CreateNtupleDColumn("kinetic_energy");
     analysis_manager->CreateNtupleDColumn("x");
