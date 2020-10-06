@@ -11,6 +11,7 @@
 #include <G4Positron.hh>
 #include <G4ComptonScattering.hh>
 #include <G4ProcessManager.hh>
+//#include <G4EmParameters.hh>
 #include <G4SystemOfUnits.hh>
 
 #include "PhysicsList.hh"

@@ -22,7 +22,7 @@ RunAction::~RunAction() = default;
 void RunAction::BeginOfRunAction(const G4Run* run)
 {
     auto analysis_manager = G4AnalysisManager::Instance();
-    analysis_manager->OpenFile("out.root");
+    analysis_manager->OpenFile("100MeV_10k_evts.root");
     CreateRootNtuples();
 }
 

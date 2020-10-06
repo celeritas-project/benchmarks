@@ -3,7 +3,7 @@ Klein-Nishina benchmark
 
 # About
 
-Short code to compare Celeritas' Klein-Nishina interaction class with
+Short code to compare Celeritas Klein-Nishina interactor with
 Geant4.
 
 # Dependencies
@@ -16,7 +16,7 @@ Geant4.
 # Characteristics
 
 ## Geometry
-Geometry is a 100 km iron cube, making it effectively infinite.
+Geometry is a 100 km aluminum cube, making it effectively infinite.
 
 ## Physics
 Available particles:

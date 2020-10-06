@@ -10,6 +10,7 @@
 #include <G4Step.hh>
 #include <G4Event.hh>
 #include <G4Run.hh>
+#include <G4SystemOfUnits.hh>
 #include <g4root.hh>
 
 #include "SteppingAction.hh"
@@ -49,7 +50,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 {
     auto analysis_mgr = G4AnalysisManager::Instance();
 
-    //! Filling ntuple 0
+    // Filling ntuple 0
     auto track       = step->GetTrack();
     auto secondaries = step->GetNumberOfSecondariesInCurrentStep();
     auto pdg         = track->GetParticleDefinition()->GetPDGEncoding();
@@ -62,8 +63,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
     // Ntuple 0 ID and column ID index
     // Makes it a bit easier to add/reorder ntuple columns
-    int nt_0 = 0;
-    int id_0 = 0;
+    const int nt_0 = 0;
+    int       id_0 = 0;
 
     analysis_mgr->FillNtupleIColumn(nt_0, id_0, event_action_->event_id_);
     id_0++;
@@ -85,11 +86,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     id_0++;
     analysis_mgr->FillNtupleDColumn(nt_0, id_0, step->GetStepLength());
     id_0++;
-    analysis_mgr->FillNtupleDColumn(nt_0, id_0, track_position.x());
+    analysis_mgr->FillNtupleDColumn(nt_0, id_0, track_position.x() / cm);
     id_0++;
-    analysis_mgr->FillNtupleDColumn(nt_0, id_0, track_position.y());
+    analysis_mgr->FillNtupleDColumn(nt_0, id_0, track_position.y() / cm);
     id_0++;
-    analysis_mgr->FillNtupleDColumn(nt_0, id_0, track_position.z());
+    analysis_mgr->FillNtupleDColumn(nt_0, id_0, track_position.z() / cm);
     id_0++;
     analysis_mgr->FillNtupleDColumn(nt_0, id_0, track_dir.x());
     id_0++;
@@ -103,7 +104,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
     analysis_mgr->AddNtupleRow(nt_0);
 
-    //! Filling ntuple 1
+    // Filling ntuple 1
     if (track->GetCurrentStepNumber() == 1)
     {
         G4ThreeVector vertex     = track->GetVertexPosition();
@@ -111,8 +112,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         G4double      vertex_E_k = step->GetTrack()->GetVertexKineticEnergy();
 
         // Ntuple 1 column ID index
-        int nt_1 = 1;
-        int id_1 = 0;
+        const int nt_1 = 1;
+        int       id_1 = 0;
 
         analysis_mgr->FillNtupleIColumn(nt_1, id_1, event_action_->event_id_);
         id_1++;
@@ -122,11 +123,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         id_1++;
         analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex_E_k);
         id_1++;
-        analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex.x());
+        analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex.x() / cm);
         id_1++;
-        analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex.y());
+        analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex.y() / cm);
         id_1++;
-        analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex.z());
+        analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex.z() / cm);
         id_1++;
         analysis_mgr->FillNtupleDColumn(nt_1, id_1, vertex_dir.x());
         id_1++;
