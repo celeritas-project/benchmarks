@@ -35,7 +35,7 @@
 int main(int argc, char **argv)
 {
     G4RunManager run_manager;
-    run_manager.SetVerboseLevel(2);
+    run_manager.SetVerboseLevel(3);
 
     // Initialize the geometry
     auto detector = std::make_unique<DetectorConstruction>();
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     //ui_manager->ApplyCommand("/control/execute vis.mac");
 
     // Run events
-    ui_manager->ApplyCommand("/run/beamOn 10000");
+    ui_manager->ApplyCommand("/run/beamOn 1");
 
     // Dump physics tables
     //ui_manager->ApplyCommand("/run/particle/storePhysicsTable tables/");
