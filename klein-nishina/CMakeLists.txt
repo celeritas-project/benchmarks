@@ -7,7 +7,7 @@
 #------------------------------------------------------------------------------
 # Set up the project
 #------------------------------------------------------------------------------
-project(Geant4-Celeritas-KN)
+project(Geant4-KleinNishina-App)
 
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 cmake_policy(VERSION 3.12...3.16)
@@ -27,19 +27,19 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/src/*.hh)
 #------------------------------------------------------------------------------
 # Add the executable and link it
 #------------------------------------------------------------------------------
-add_executable(gckn geant4-celeritas-kn.cc ${sources} ${headers})
+add_executable(g4kn-app geant4-kn-app.cc ${sources} ${headers})
 
-target_include_directories(gckn PRIVATE
+target_include_directories(g4kn-app PRIVATE
  ${PROJECT_SOURCE_DIR}/src
  ${Geant4_INCLUDE_DIR})
 
-target_link_libraries(gckn PRIVATE
+target_link_libraries(g4kn-app PRIVATE
   ${Geant4_LIBRARIES})
 
 #------------------------------------------------------------------------------
 # Install the executable in the current directory
 #------------------------------------------------------------------------------
-install(TARGETS gckn DESTINATION .)
+install(TARGETS g4kn-app DESTINATION .)
 
 #------------------------------------------------------------------------------
 # Create a tables folder and copy vis.mac to the current dir

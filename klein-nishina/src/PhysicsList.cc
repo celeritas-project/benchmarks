@@ -21,7 +21,7 @@
 PhysicsList::PhysicsList() : G4VUserPhysicsList()
 {
     G4EmParameters* em_parameters = G4EmParameters::Instance();
-    em_parameters->SetVerbose(3);
+    //em_parameters->SetVerbose(3);
 }
 
 PhysicsList::~PhysicsList() = default;

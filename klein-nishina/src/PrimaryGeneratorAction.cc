@@ -29,7 +29,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
     G4ThreeVector position(0, 0, 0);
     particle_gun_->SetParticleDefinition(particle);
     particle_gun_->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
-    particle_gun_->SetParticleEnergy(100 * MeV);
+    particle_gun_->SetParticleEnergy(1 * MeV);
     particle_gun_->SetParticlePosition(position);
 }
 
