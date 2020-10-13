@@ -15,7 +15,7 @@
 //! Default constructor and destructor
 RunAction::RunAction() : G4UserRunAction()
 {
-    G4RunManager::GetRunManager()->SetPrintProgress(1);
+    // G4RunManager::GetRunManager()->SetPrintProgress(1);
 }
 
 RunAction::~RunAction() = default;
@@ -24,18 +24,18 @@ RunAction::~RunAction() = default;
 //! Create the root file and its ntuple structure
 void RunAction::BeginOfRunAction(const G4Run* run)
 {
-    auto analysis_manager = G4AnalysisManager::Instance();
-    analysis_manager->OpenFile("60k_evts.root");
-    CreateRootNtuples();
+    // auto analysis_manager = G4AnalysisManager::Instance();
+    // analysis_manager->OpenFile("out.root");
+    // CreateRootNtuples();
 }
 
 //---------------------------------------------------------------------------//
 //! Write the root file to disk
 void RunAction::EndOfRunAction(const G4Run* /*run*/)
 {
-    G4AnalysisManager* analysis_manager = G4AnalysisManager::Instance();
-    analysis_manager->Write();
-    analysis_manager->CloseFile();
+    // G4AnalysisManager* analysis_manager = G4AnalysisManager::Instance();
+    // analysis_manager->Write();
+    // analysis_manager->CloseFile();
 }
 
 //---------------------------------------------------------------------------//

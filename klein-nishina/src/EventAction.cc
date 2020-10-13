@@ -21,5 +21,5 @@ EventAction::~EventAction() = default;
 //! Implementation of virtual functions
 void EventAction::BeginOfEventAction(const G4Event* event)
 {
-    event_id_ = event->GetEventID();
+    // event_id_ = event->GetEventID();
 }

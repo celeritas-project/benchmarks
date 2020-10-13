@@ -48,6 +48,7 @@ SteppingAction::~SteppingAction() = default;
  */
 void SteppingAction::UserSteppingAction(const G4Step* step)
 {
+    /*
     auto analysis_mgr = G4AnalysisManager::Instance();
 
     // Filling ntuple 0
@@ -137,4 +138,5 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
         analysis_mgr->AddNtupleRow(nt_1);
     }
+    */
 }
