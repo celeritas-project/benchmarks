@@ -61,7 +61,7 @@ int main(int argc, char** argv)
     // ui_manager->ApplyCommand("/control/execute vis.mac");
 
     // Run events
-    ui_manager->ApplyCommand("/run/beamOn 10000");
+    ui_manager->ApplyCommand("/run/beamOn 60000");
 
     // Dump physics tables
     // ui_manager->ApplyCommand("/run/particle/storePhysicsTable tables/");

@@ -5,7 +5,7 @@
 void energy_deposition_per_bin()
 {
     // Open ROOT file and TTree
-    TFile* input = new TFile("../build/100MeV_10k_evts_post.root", "read");
+    TFile* input = new TFile("../build/60k_evts_post.root", "read");
     TTree* tree_events = (TTree*)input->Get("events");
 
     Event* event = nullptr;
@@ -58,6 +58,9 @@ void energy_deposition_per_bin()
 
     double total_energy = 0;
 
+
+    ofstream output("g4-edep-100MeV-60k-1.0cm.txt");
+
     // Normalize bin by number of events
     // Normalize by bin size to get MeV/cm
     // Add data point to the plot
@@ -66,8 +69,12 @@ void energy_deposition_per_bin()
         energy_per_z_bin[i] /= tree_events->GetEntries() - 1;
         energy_per_z_bin[i] /= z_bin_size;
 
+        output << energy_per_z_bin[i] << endl;
+
         gr->SetPoint(i, z_bins_center[i], energy_per_z_bin[i]);
     }
+
+    output.close();
 
     // Open canvas and draw the graph
     TCanvas* c = new TCanvas("", "", 700, 500);

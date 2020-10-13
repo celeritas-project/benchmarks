@@ -13,7 +13,10 @@
 
 //---------------------------------------------------------------------------//
 //! Default constructor and destructor
-RunAction::RunAction() : G4UserRunAction() {}
+RunAction::RunAction() : G4UserRunAction()
+{
+    G4RunManager::GetRunManager()->SetPrintProgress(1);
+}
 
 RunAction::~RunAction() = default;
 
@@ -22,7 +25,7 @@ RunAction::~RunAction() = default;
 void RunAction::BeginOfRunAction(const G4Run* run)
 {
     auto analysis_manager = G4AnalysisManager::Instance();
-    analysis_manager->OpenFile("out.root");
+    analysis_manager->OpenFile("60k_evts.root");
     CreateRootNtuples();
 }
 

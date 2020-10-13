@@ -9,8 +9,8 @@
 #include "Event.h"
 
 // I/O info
-std::string input_file  = "../build/500evts.root";
-std::string output_file = "../build/500evts_post.root";
+std::string input_file  = "../build/out.root";
+std::string output_file = "../build/out_post.root";
 
 //---------------------------------------------------------------------------//
 void root_post_process()
