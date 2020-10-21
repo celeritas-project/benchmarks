@@ -66,9 +66,9 @@ class Run:
                 'num_tracks': num_tracks * self.block_size,
                 'max_steps': max_steps,
                 'tally_grid': {
-                    'size': 1024,
-                    'front': -1,
-                    'delta': 0.1,
+                    'size': 2048,
+                    'front': 0,
+                    'delta': 1,
                 }
             }
         }
