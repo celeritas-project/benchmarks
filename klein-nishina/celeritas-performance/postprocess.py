@@ -58,9 +58,11 @@ aihbm = []
 flops = []
 for tag in tags:
 
+    if 'fma' in tag:
+        continue
+
     with open('{}.md'.format(tag), 'w') as f:
         f.write(dfs[tag].to_markdown())
-
 
     dfm=dfs[tag]
     LABELS = dfm.index.tolist()

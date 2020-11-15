@@ -31,8 +31,8 @@ def roofline(filename, FLOPS, AIHBM, AIL2=None, AIL1=None, LABELS=None, flag='HB
         return
     LABELS = [x[:maxchar] for x in LABELS]
 
-    memRoofs = [('L1', 54000.), ('L2', 2996.77),  ('HBM', 828.76)]
-    cmpRoofs = [('DP', 7.8)]
+    memRoofs = [('L1', 14336.0), ('L2', 2996.8), ('HBM', 828.8)]
+    cmpRoofs = [('FMA', 7068.9), ('No-FMA', 3535.8)]
 
     fig = plt.figure(1,figsize=(10.67,6.6))
     plt.clf()
@@ -48,7 +48,7 @@ def roofline(filename, FLOPS, AIHBM, AIL2=None, AIL1=None, LABELS=None, flag='HB
     xmin = -3
     xmax = 3
     ymin = 1
-    ymax = 100000
+    ymax = 50000
 
     ax.set_xlim(10**xmin, 10**xmax)
     ax.set_ylim(ymin, ymax)
@@ -65,20 +65,20 @@ def roofline(filename, FLOPS, AIHBM, AIL2=None, AIL1=None, LABELS=None, flag='HB
     x = np.logspace(xmin,xmax,nx)
     for roof in cmpRoofs:
         for ix in range(1,nx):
-            if float(memRoofs[0][1] * x[ix]) >= roof[1]*1024 and (memRoofs[0][1] * x[ix-1]) < roof[1]*1024:
+            if float(memRoofs[0][1] * x[ix]) >= roof[1] and (memRoofs[0][1] * x[ix-1]) < roof[1]:
                 scomp_x_elbow.append(x[ix-1])
                 scomp_ix_elbow.append(ix-1)
                 break
 
     for roof in memRoofs:
         for ix in range(1,nx):
-            if (cmpRoofs[0][1]*1024 <= roof[1] * x[ix] and cmpRoofs[0][1]*1024 > roof[1] * x[ix-1]):
+            if (cmpRoofs[0][1] <= roof[1] * x[ix] and cmpRoofs[0][1] > roof[1] * x[ix-1]):
                 smem_x_elbow.append(x[ix-1])
                 smem_ix_elbow.append(ix-1)
                 break
 
     for i in range(len(cmpRoofs)):
-        roof = cmpRoofs[i][1]*1024
+        roof = cmpRoofs[i][1]
         y = np.ones(len(x)) * roof
         ax.plot(x[scomp_ix_elbow[i]:],y[scomp_ix_elbow[i]:],c='k',ls='-',lw='2')
 
@@ -130,8 +130,8 @@ def roofline(filename, FLOPS, AIHBM, AIL2=None, AIL1=None, LABELS=None, flag='HB
 
 
     for roof in cmpRoofs:
-        ax.text(x[-ixx],roof[1]*1024,
-              roof[0] + ': ' + '{0:.1f}'.format(roof[1]) + ' TFLOP/s',
+        ax.text(x[-ixx],roof[1],
+              roof[0] + ': ' + '{0:.1f}'.format(roof[1]) + ' GFLOP/s',
               horizontalalignment='right',
               verticalalignment='bottom')
 
@@ -139,7 +139,7 @@ def roofline(filename, FLOPS, AIHBM, AIL2=None, AIL1=None, LABELS=None, flag='HB
         ang = np.arctan(np.log10(xlim[1]/xlim[0]) / np.log10(ylim[1]/ylim[0])
                                    * fig.get_size_inches()[1]/fig.get_size_inches()[0] )
         if x[ixx]*roof[1] >ymin:
-            ax.text(x[ixx],x[ixx]*roof[1]*(1+0.25*np.sin(ang)**2),
+            ax.text(x[ixx],x[ixx]*roof[1]*(1+0.45*np.sin(ang)**2),
               roof[0] + ': ' + '{0:.1f}'.format(float(roof[1])) + ' GB/s',
               horizontalalignment='left',
               verticalalignment='bottom',
@@ -152,7 +152,7 @@ def roofline(filename, FLOPS, AIHBM, AIL2=None, AIL1=None, LABELS=None, flag='HB
                     ymin_x_elbow.append(x[ix-1])
                     ymin_ix_elbow.append(ix-1)
                     break
-            ax.text(x[ixx+ymin_ix_elbow[0]],x[ixx+ymin_ix_elbow[0]]*roof[1]*(1+0.25*np.sin(ang)**2),
+            ax.text(x[ixx+ymin_ix_elbow[0]],x[ixx+ymin_ix_elbow[0]]*roof[1]*(1+0.45*np.sin(ang)**2),
               roof[0] + ': ' + '{0:.1f}'.format(float(roof[1])) + ' GB/s',
               horizontalalignment='left',
               verticalalignment='bottom',
@@ -170,10 +170,4 @@ def roofline(filename, FLOPS, AIHBM, AIL2=None, AIL1=None, LABELS=None, flag='HB
 
     leg2 = plt.legend(handles = patch_handles,loc=4,ncol=1,bbox_to_anchor = (1,0.1),scatterpoints = 1)
 
-#    ax.text(xlim[0]*1.1,ylim[1]/1.1, '-'.join([filename,flag]), horizontalalignment='left',verticalalignment='top')
-#     plt.title('-'.join([filename,flag]))
-
     plt.savefig('_'.join([filename,flag])+'.png')
-#     plt.savefig('_'.join([filename,flag])+'.eps')
-
-#    plt.show()
