@@ -58,9 +58,6 @@ aihbm = []
 flops = []
 for tag in tags:
 
-    if 'fma' in tag:
-        continue
-
     with open('{}.md'.format(tag), 'w') as f:
         f.write(dfs[tag].to_markdown())
 
@@ -81,6 +78,10 @@ for tag in tags:
     roofline(tag, FLOPS, AIHBM, AIL2, AIL1, new_labels, 'all')
 
     lbl = '{}/{}'.format(new_labels[0], '-'.join(tag.split('-')[-2:]))
+
+    # Do not add FMA results to total plot
+    if 'fma' in tag:
+        continue
 
     labels.append(lbl)
     ail1.extend(AIL1)
