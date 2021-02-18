@@ -1,0 +1,28 @@
+{
+    "gdml": "",
+    "root_output": "g4_out.root",
+    "GUI": true,
+    "vis_macro": "vis.mac",
+    "events": "10",
+    "step_info": true,
+    "primary": {
+        "pdg": 22,
+        "energy": 10,
+        "vertex": [0, 0, 0],
+        "direction": [0, 0, 1]
+    },
+    "physics": {
+        "verbosity": 1,
+        "list": {
+            "compton_scattering": true,
+            "photoelectric": false,
+            "rayleigh": false,
+            "gamma_conversion": true,
+            "positron_annihilation": true,
+            "bremmstrahlung": false,
+            "multiple_scattering": false,
+            "e_ionization": false,
+            "coulomb_scattering": false
+        }
+    }
+}

@@ -1,0 +1,8 @@
+.vscode
+*.swp
+*.cache
+*.pyc
+*.root
+.ipynb*
+.DS_Store
+compile_commands.json
