@@ -11,6 +11,7 @@ from math import ceil
 import json
 from pathlib import PurePosixPath as Path
 import subprocess
+
 try:
     from tqdm import tqdm
 except ImportError:
@@ -51,6 +52,7 @@ class Runner:
         inp = {
             'grid_params': {
                 'block_size': self.block_size,
+                'grid_size': int(ceil(num_tracks / self.block_size)),
                 'sync': False,
             },
             'run': self.run_args.copy()
@@ -68,7 +70,8 @@ def main():
     from itertools import count
     from pathlib import Path
 
-    run = Runner("wildstyle", "~/.local/src/celeritas/build-opt")
+    remote = "wildstyle"
+    run = Runner(remote, "~/.local/src/celeritas/build-opt")
 
     time = []
     tracks = []
