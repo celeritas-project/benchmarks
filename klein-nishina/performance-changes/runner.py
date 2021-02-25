@@ -92,7 +92,7 @@ def main():
     result['runtime']['kernels'] = kernel_stats
 
     version = result['runtime']['version'].partition('+')[2]
-    outdir = Path(version + '-reg80')
+    outdir = Path(version)
     outdir.mkdir(exist_ok=True)
 
     with open(outdir / 'results.json', 'w') as f:
