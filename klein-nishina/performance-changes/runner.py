@@ -72,6 +72,7 @@ def main():
 
     remote = "wildstyle"
     run = Runner(remote, "~/.local/src/celeritas/build-opt")
+    run.block_size = 128
 
     time = []
     tracks = []
@@ -91,7 +92,7 @@ def main():
     result['runtime']['kernels'] = kernel_stats
 
     version = result['runtime']['version'].partition('+')[2]
-    outdir = Path(version)
+    outdir = Path(version + '-reg80')
     outdir.mkdir(exist_ok=True)
 
     with open(outdir / 'results.json', 'w') as f:
