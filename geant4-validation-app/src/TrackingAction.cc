@@ -23,7 +23,7 @@ TrackingAction::~TrackingAction() = default;
 /*!
  *  Pre-track simulation actions.
  */
-void TrackingAction::PreUserTrackingAction(const G4Track* track)
+void TrackingAction::PreUserTrackingAction(const G4Track*)
 {
     RootIO::get_instance()->clear_track();
 }

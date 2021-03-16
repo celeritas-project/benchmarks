@@ -68,9 +68,9 @@ events with `cms.gdml`).
 ```
 
 
-# Utils
-- A couple ROOT macros are included for reading an output and producing a few 
-example histograms. To run them:
+# Utils/
+A couple ROOT macros are included for reading a ROOT output file and generate a
+few example histograms. To run them:
 
 ```
 $ root

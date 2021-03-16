@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
 //! \file RootIO.hh
-//! \brief ROOT output interface.
+//! \brief ROOT I/O interface.
 //---------------------------------------------------------------------------//
 #pragma once
 
@@ -16,18 +16,17 @@
 
 //---------------------------------------------------------------------------//
 /*!
- * ROOT I/O interface. It creates a static instance available to all Geant4
- * classes.
+ * ROOT I/O interface. It creates a singleton to manage data provided by
+ * different Geant4 classes.
+ *
  * Use \c RootIO::construct("output.root") to create the ROOT file at the
  * beginning of the simulation run. Call \c RootIO::get_instance() to get
  * access to the constructed RootIO object from any class method.
- * At the end of the run, write the TFile to disk and close it. 
+ * At the end of the run, write the TFile to disk and close it.
  */
 class RootIO
 {
   public:
-    ~RootIO();
-
     static void    construct(std::string root_filename);
     static RootIO* get_instance();
     void           clear_event();
@@ -41,4 +40,5 @@ class RootIO
 
   private:
     RootIO(std::string root_filename);
+    ~RootIO();
 };

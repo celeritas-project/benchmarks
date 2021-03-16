@@ -21,5 +21,5 @@ class EventAction : public G4UserEventAction
     ~EventAction();
 
     void BeginOfEventAction(const G4Event* event) override;
-    void EndOfEventAction(const G4Event* event) override;
+    void EndOfEventAction(const G4Event*) override;
 };

@@ -8,21 +8,65 @@
 #include "RootIO.hh"
 
 #include <memory>
+#include <iostream>
 
 //---------------------------------------------------------------------------//
 /*!
- * Create a static instance.
+ * Singleton definition.
  */
-static RootIO* rootio_static_instance = nullptr;
+static RootIO* rootio_singleton = nullptr;
+
+//---------------------------------------------------------------------------//
+// PUBLIC
+//---------------------------------------------------------------------------//
 
 //---------------------------------------------------------------------------//
 /*!
- * Assign constructor to the static RootIO*.
+ * Constructor singleton.
  */
 void RootIO::construct(std::string root_filename)
 {
-    rootio_static_instance = new RootIO(root_filename);
+    if (!rootio_singleton)
+    {
+        rootio_singleton = new RootIO(root_filename);
+    }
+    else
+    {
+        std::cout << "ROOT I/O already constructed. Nothing to do.\n";
+        return;
+    }
 }
+
+//---------------------------------------------------------------------------//
+/*!
+ * Get static RootIO instance. \c construct() *MUST* be called before this.
+ */
+RootIO* RootIO::get_instance()
+{
+    return rootio_singleton;
+}
+
+//---------------------------------------------------------------------------//
+/*!
+ * Clear event_ struct for storing new data.
+ */
+void RootIO::clear_event()
+{
+    event_ = utils::Event();
+}
+
+//---------------------------------------------------------------------------//
+/*!
+ * Clear track_ struct for storing new data.
+ */
+void RootIO::clear_track()
+{
+    track_ = utils::Track();
+}
+
+//---------------------------------------------------------------------------//
+// PRIVATE
+//---------------------------------------------------------------------------//
 
 //---------------------------------------------------------------------------//
 /*!
@@ -45,31 +89,4 @@ RootIO::~RootIO()
     {
         tfile_ptr_->Close();
     }
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Get static RootIO instance. \c construct() *MUST* be called before this.
- */
-RootIO* RootIO::get_instance()
-{
-    return rootio_static_instance;
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Clear event_ struct for storing new data.
- */
-void RootIO::clear_event()
-{
-    event_ = utils::Event();
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Clear track_ struct for storing new data.
- */
-void RootIO::clear_track()
-{
-    track_ = utils::Track();
 }

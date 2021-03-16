@@ -21,7 +21,7 @@ class RunAction : public G4UserRunAction
     RunAction();
     ~RunAction();
 
-    void BeginOfRunAction(const G4Run* run) override;
+    void BeginOfRunAction(const G4Run*) override;
     void EndOfRunAction(const G4Run*) override;
     void set_output_filename(const std::string root_filename);
 

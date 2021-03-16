@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
 //! \file Event.h
-//! \brief Event structure for post-processed Geant4 ROOT files.
+//! \brief Event structure for Geant4 ROOT files.
 //---------------------------------------------------------------------------//
 #pragma once
 
@@ -14,6 +14,11 @@
 namespace utils
 {
 //---------------------------------------------------------------------------//
+/*!
+ * Structure used to write Event information in the ROOT output file.
+ *
+ * \sa RootIO.hh
+ */
 struct Vector3
 {
     double x;
@@ -24,11 +29,11 @@ struct Vector3
 struct Step
 {
     std::string process;
-    double      kinetic_energy;
-    double      energy_loss;
-    Vector3     direction;
-    Vector3     position;
-    double      global_time;
+    double      kinetic_energy; //!< [MeV]
+    double      energy_loss;    //!< [MeV]
+    Vector3     direction;      //!< Unit vector
+    Vector3     position;       //!< [cm]
+    double      global_time;    //!< [s]
 };
 
 struct Track
@@ -36,12 +41,12 @@ struct Track
     int               pdg;
     int               id;
     int               parent_id;
-    double            length;
-    double            energy_dep;
-    double            vertex_energy;
-    double            vertex_global_time;
-    Vector3           vertex_direction;
-    Vector3           vertex_position;
+    double            length;             //!< [MeV]
+    double            energy_dep;         //!< [MeV]
+    double            vertex_energy;      //!< [MeV]
+    double            vertex_global_time; //!< [s]
+    Vector3           vertex_direction;   //!< Unit vector
+    Vector3           vertex_position;    //!< [cm]
     std::vector<Step> steps;
 };
 
@@ -49,8 +54,8 @@ struct Vertex
 {
     Track              incident;
     std::vector<Track> secondaries;
-    Vector3            position;
-    double             global_time;
+    Vector3            position;    //!< [cm]
+    double             global_time; //!< [s]
 };
 
 struct Event

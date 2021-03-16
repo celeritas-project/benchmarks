@@ -32,7 +32,7 @@ void EventAction::BeginOfEventAction(const G4Event* event)
 /*
  * End of event actions.
  */
-void EventAction::EndOfEventAction(const G4Event* event)
+void EventAction::EndOfEventAction(const G4Event*)
 {
     RootIO::get_instance()->ttree_ptr_->Fill();
 }

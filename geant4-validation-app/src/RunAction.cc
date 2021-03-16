@@ -30,7 +30,7 @@ void RunAction::set_output_filename(const std::string root_filename)
 /*!
  * Create ROOT file and its ntuple structure.
  */
-void RunAction::BeginOfRunAction(const G4Run* run)
+void RunAction::BeginOfRunAction(const G4Run*)
 {
     RootIO::construct(geant_root_output_filename_);
 }
@@ -39,7 +39,7 @@ void RunAction::BeginOfRunAction(const G4Run* run)
 /*!
  * Write ROOT file to disk.
  */
-void RunAction::EndOfRunAction(const G4Run* /*run*/)
+void RunAction::EndOfRunAction(const G4Run*)
 {
     auto root_io = RootIO::get_instance();
     root_io->tfile_ptr_->Write();

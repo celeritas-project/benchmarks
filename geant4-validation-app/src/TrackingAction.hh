@@ -21,6 +21,6 @@ class TrackingAction : public G4UserTrackingAction
     TrackingAction();
     ~TrackingAction();
 
-    void PreUserTrackingAction(const G4Track* track) override;
+    void PreUserTrackingAction(const G4Track*) override;
     void PostUserTrackingAction(const G4Track* track) override;
 };
