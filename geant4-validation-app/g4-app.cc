@@ -50,6 +50,7 @@ int main(int argc, char** argv)
     if (!gdml_input.size())
     {
         detector = std::make_unique<DetectorConstruction>();
+        // detector->export_gdml("simple_cms.gdml");
     }
     else
     {

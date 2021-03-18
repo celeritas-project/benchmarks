@@ -28,9 +28,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     //! Construct geometry
     G4VPhysicalVolume* Construct() override;
 
+    //! Export GDML file representing the programmatic geometry
+    void export_gdml(std::string gdml_filename);
+
   private:
-    //! Define programmatic geometry
+    //! Define programmatic geometry: Al cube
     G4VPhysicalVolume* CreateGeometry();
+    //! Define programmatic geometry: single-material CMS mock up
+    G4VPhysicalVolume* CreateCMSGeometry();
 
   private:
     bool                               use_gdml_;

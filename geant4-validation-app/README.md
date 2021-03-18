@@ -76,3 +76,8 @@ few example histograms. To run them:
 $ root
 root[0] .x macro.C("/path/to/out.root")
 ```
+
+# Notes
+One can tweak the programmatic geometry by updating `DetectorConstruction` and
+use `DetectorConstruction::export_gdml("geo.gdml")` to export said geometry to
+a GDML file.
