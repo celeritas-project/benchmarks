@@ -25,5 +25,7 @@ class SteppingAction : public G4UserSteppingAction
 
   private:
     void fill_rootio_step_data(const G4Step* step);
+
+  private:
     const bool save_step_data_;
 };

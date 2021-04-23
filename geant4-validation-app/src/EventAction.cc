@@ -12,9 +12,11 @@
 
 //---------------------------------------------------------------------------//
 /*
- * Constructor and destructor.
+ * Constructor and default destructor.
  */
 EventAction::EventAction() : G4UserEventAction() {}
+
+//---------------------------------------------------------------------------//
 EventAction::~EventAction() = default;
 
 //---------------------------------------------------------------------------//
@@ -34,5 +36,5 @@ void EventAction::BeginOfEventAction(const G4Event* event)
  */
 void EventAction::EndOfEventAction(const G4Event*)
 {
-    RootIO::get_instance()->ttree_ptr_->Fill();
+    RootIO::get_instance()->ttree_event_->Fill();
 }

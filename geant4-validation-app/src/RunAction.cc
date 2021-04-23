@@ -42,6 +42,6 @@ void RunAction::BeginOfRunAction(const G4Run*)
 void RunAction::EndOfRunAction(const G4Run*)
 {
     auto root_io = RootIO::get_instance();
-    root_io->tfile_ptr_->Write();
-    root_io->tfile_ptr_->Close();
+    root_io->tfile_->Write();
+    root_io->tfile_->Close();
 }

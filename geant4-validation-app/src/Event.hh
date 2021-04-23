@@ -65,5 +65,6 @@ struct Event
     std::vector<Track>  secondaries;
     std::vector<Vertex> vertices;
 };
+
 //---------------------------------------------------------------------------//
 } // namespace utils

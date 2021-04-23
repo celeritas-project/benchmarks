@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 
     // >>> PARSE JSON INPUT
     std::ifstream  input_stream(argv[1]);
-    nlohmann::json json = nlohmann::json::parse(input_stream);
+    static nlohmann::json json = nlohmann::json::parse(input_stream);
 
     // >>> INITIALIZE RUN MANAGER
     G4RunManager run_manager;

@@ -12,7 +12,7 @@
 
 //---------------------------------------------------------------------------//
 /*!
- * Singleton definition.
+ * Singleton declaration.
  */
 static RootIO* rootio_singleton = nullptr;
 
@@ -48,7 +48,7 @@ RootIO* RootIO::get_instance()
 
 //---------------------------------------------------------------------------//
 /*!
- * Clear event_ struct for storing new data.
+ * Clear event_ struct.
  */
 void RootIO::clear_event()
 {
@@ -57,7 +57,7 @@ void RootIO::clear_event()
 
 //---------------------------------------------------------------------------//
 /*!
- * Clear track_ struct for storing new data.
+ * Clear track_ struct.
  */
 void RootIO::clear_track()
 {
@@ -70,23 +70,11 @@ void RootIO::clear_track()
 
 //---------------------------------------------------------------------------//
 /*!
- * Construct and create new TFile.
+ * Construct new TFile with given root filename.
  */
 RootIO::RootIO(std::string root_filename)
 {
-    tfile_ptr_ = new TFile(root_filename.c_str(), "recreate");
-    ttree_ptr_ = new TTree("event", "event");
-    ttree_ptr_->Branch("event", &event_);
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Close ROOT file at destruction, if not previously done so.
- */
-RootIO::~RootIO()
-{
-    if (tfile_ptr_->IsOpen())
-    {
-        tfile_ptr_->Close();
-    }
+    tfile_.reset(TFile::Open(root_filename.c_str(), "recreate"));
+    ttree_event_ = std::make_unique<TTree>("event", "event");
+    ttree_event_->Branch("event", &event_);
 }

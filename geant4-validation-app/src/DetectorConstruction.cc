@@ -101,8 +101,8 @@ G4VPhysicalVolume* DetectorConstruction::CreateGeometry()
 /*!
  * Programmatic geometry definition: Single material CMS mock up.
  *
- * This is set of single-element concentric cylinders that act as a
- * spherical cow in a vacuum version of CMS.
+ * This is set of single-element concentric cylinders that act as a spherical
+ * cow in a vacuum version of CMS.
  */
 G4VPhysicalVolume* DetectorConstruction::CreateCMSGeometry()
 {
@@ -127,11 +127,11 @@ G4VPhysicalVolume* DetectorConstruction::CreateCMSGeometry()
         = new G4Box("world_box", world_size / 2, world_size / 2, world_size);
 
     G4Tubs* si_tracker = new G4Tubs("silicon_tracker",
-                                    30 * cm,          //!< Inner radius
-                                    125 * cm - delta, //!< Outer radius
-                                    half_length,      //!< Half-length z
-                                    0 * deg,          //!< Start angle
-                                    360 * deg);       //!< Spanning angle
+                                    30 * cm,          // Inner radius
+                                    125 * cm - delta, // Outer radius
+                                    half_length,      // Half-length z
+                                    0 * deg,          // Start angle
+                                    360 * deg);       // Spanning angle
 
     G4Tubs* em_calorimeter = new G4Tubs("crystal_em_calorimeter",
                                         125 * cm,
@@ -175,14 +175,14 @@ G4VPhysicalVolume* DetectorConstruction::CreateCMSGeometry()
         = new G4LogicalVolume(iron_muon_chambers, Fe, "iron_muon_chambers_lv");
 
     // List of physical volumes
-    const auto world_pv = new G4PVPlacement(0, //!< Rotation matrix
-                                            G4ThreeVector(), //!< Position
-                                            world_lv,        //!< Current LV
-                                            "world_pv",      //!< Name
-                                            nullptr,         //!< Mother LV
-                                            false,  //!< Bool operation
-                                            0,      //!< Copy number
-                                            false); //!< Overlap check
+    const auto world_pv = new G4PVPlacement(0,               // Rotation matrix
+                                            G4ThreeVector(), // Position
+                                            world_lv,        // Current LV
+                                            "world_pv",      // Name
+                                            nullptr,         // Mother LV
+                                            false,           // Bool operation
+                                            0,               // Copy number
+                                            false);          // Overlap check
 
     new G4PVPlacement(0,
                       G4ThreeVector(),

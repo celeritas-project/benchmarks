@@ -29,5 +29,5 @@ class RunAction : public G4UserRunAction
     void CreateRootNtuples();
 
   private:
-    std::string  geant_root_output_filename_ = "out.root";
+    std::string geant_root_output_filename_ = "out.root";
 };

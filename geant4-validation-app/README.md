@@ -13,7 +13,7 @@ Geant4 validation app
 
 
 # Build and run
-```
+```bash
 $ mkdir build
 $ cmake ..
 $ make
@@ -28,13 +28,14 @@ of it is self-explanatory, but here is a short help:
 - If the `gdml` field is left blank, a programmatic geometry is loaded. 
 Otherwise, the app will load the provided geometry.  
 - The `root_output` field also works with a full path: `/path/to/out.root`.    
-- The GUI does not work well with very large geometries (avoid visualizing 
-events with `cms.gdml`).  
+- Geant4's GUI does not work well with very large geometries (avoid visualizing
+events with `cms2018.gdml`).  
 - `events` is the number of events to be simulated.  
 - `step_info` will not be stored to the root file if set to `false`.  
 - `primary.energy` is in **[MeV]**.  
 - `primary.vertex` is in **[cm]**.  
-- `||primary.direction|| = 1`.  
+- `primary.direction` is in arbitrary units, as it is normalized during
+initialization.  
 
 ```json
 {
@@ -72,12 +73,13 @@ events with `cms.gdml`).
 A couple ROOT macros are included for reading a ROOT output file and generate a
 few example histograms. To run them:
 
-```
+```bash
 $ root
 root[0] .x macro.C("/path/to/out.root")
 ```
 
 # Notes
-One can tweak the programmatic geometry by updating `DetectorConstruction` and
-use `DetectorConstruction::export_gdml("geo.gdml")` to export said geometry to
+Although this requires recompiling the code, one can tweak the programmatic
+geometry by updating `DetectorConstruction` and use
+`DetectorConstruction::export_gdml("geo.gdml")` to export said geometry to
 a GDML file.

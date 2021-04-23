@@ -19,6 +19,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 {
 }
 
+//---------------------------------------------------------------------------//
 PrimaryGeneratorAction::~PrimaryGeneratorAction() = default;
 
 //---------------------------------------------------------------------------//
@@ -47,6 +48,7 @@ void PrimaryGeneratorAction::set_particle_gun(nlohmann::json json_input)
     primary.direction = G4ThreeVector(p.at("direction")[0].get<double>(),
                                       p.at("direction")[1].get<double>(),
                                       p.at("direction")[2].get<double>());
+    primary.direction = primary.direction.unit();
 
     // Create the particle gun
     G4int number_of_particles = 1;

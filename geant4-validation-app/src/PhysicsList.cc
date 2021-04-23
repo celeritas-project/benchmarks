@@ -46,6 +46,7 @@ PhysicsList::PhysicsList(nlohmann::json json_input) : G4VUserPhysicsList()
     G4EmParameters::Instance()->SetVerbose(level);
 }
 
+//---------------------------------------------------------------------------//
 PhysicsList::~PhysicsList() = default;
 
 //---------------------------------------------------------------------------//

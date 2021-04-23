@@ -40,10 +40,10 @@ void ActionInitialization::Build() const
     PrimaryGeneratorAction* primary_action = new PrimaryGeneratorAction();
     primary_action->set_particle_gun(json_input_);
 
-    SetUserAction(run_action);                    //! Create root file
-    SetUserAction(primary_action);                //! Set particle gun
-    SetUserAction(new EventAction());             //! Set event rules
-    SetUserAction(new TrackingAction());          //! Save track info
-    SetUserAction(new SteppingAction(step_data)); //! save step data
-    // SetUserAction(new StackingAction()); //! Kill secondaries
+    SetUserAction(run_action);                    // Create root file
+    SetUserAction(primary_action);                // Set particle gun
+    SetUserAction(new EventAction());             // Set event rules
+    SetUserAction(new TrackingAction());          // Save track info
+    SetUserAction(new SteppingAction(step_data)); // save step data
+    // SetUserAction(new StackingAction());       // Kill secondaries
 }
