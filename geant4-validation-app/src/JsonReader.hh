@@ -3,29 +3,33 @@
 // See the top-level COPYRIGHT file for details.
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
-//! \file SteppingAction.hh
-//! \brief Collect step information.
+//! \file JsonReader.hh
+//! \brief nlohmann/json singleton.
 //---------------------------------------------------------------------------//
 #pragma once
 
-#include <G4UserSteppingAction.hh>
-#include <G4Step.hh>
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 //---------------------------------------------------------------------------//
 /*!
- * Retrieve particle step data and save it to the root file.
+ * JSON singleton for allowing global access to the \e nlohmann/json parser.
  */
-class SteppingAction : public G4UserSteppingAction
+class JsonReader
 {
   public:
-    SteppingAction();
-    ~SteppingAction();
+    // Construct by creating singleton from the json filename
+    static void construct(std::ifstream& json_filename);
 
-    void UserSteppingAction(const G4Step* step) override;
+    // Get singleton instance
+    static JsonReader* get_instance();
+
+    // Get parsed json for reading
+    nlohmann::json& json();
 
   private:
-    void fill_rootio_step_data(const G4Step* step);
+    JsonReader(std::ifstream& json_filename);
 
   private:
-    bool save_step_data_;
+    nlohmann::json json_;
 };

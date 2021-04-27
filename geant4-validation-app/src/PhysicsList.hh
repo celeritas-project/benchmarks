@@ -10,7 +10,6 @@
 
 #include <map>
 #include <G4VUserPhysicsList.hh>
-#include <nlohmann/json.hpp>
 
 //---------------------------------------------------------------------------//
 /*!
@@ -19,7 +18,7 @@
 class PhysicsList : public G4VUserPhysicsList
 {
   public:
-    PhysicsList(nlohmann::json json_input);
+    PhysicsList();
     ~PhysicsList();
 
     void ConstructParticle() override;

@@ -10,9 +10,10 @@
 
 #include <string>
 #include <memory>
+
 #include <TFile.h>
 #include <TTree.h>
-#include <nlohmann/json.hpp>
+
 #include "Event.hh"
 
 //---------------------------------------------------------------------------//
@@ -30,7 +31,7 @@ class RootIO
 {
   public:
     // Construct by creating singleton and creating the ROOT file
-    static void construct(std::string root_filename);
+    static void construct();
 
     // Get singleton instance
     static RootIO* get_instance();
@@ -51,6 +52,6 @@ class RootIO
     utils::Track track_;
 
   private:
-    RootIO(std::string root_filename);
+    RootIO();
     ~RootIO() = default;
 };

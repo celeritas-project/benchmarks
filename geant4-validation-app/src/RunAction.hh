@@ -23,11 +23,7 @@ class RunAction : public G4UserRunAction
 
     void BeginOfRunAction(const G4Run*) override;
     void EndOfRunAction(const G4Run*) override;
-    void set_output_filename(const std::string root_filename);
 
   private:
     void CreateRootNtuples();
-
-  private:
-    std::string geant_root_output_filename_ = "out.root";
 };

@@ -16,6 +16,7 @@
 #include "src/DetectorConstruction.hh"
 #include "src/PhysicsList.hh"
 #include "src/ActionInitialization.hh"
+#include "JsonReader.hh"
 
 //---------------------------------------------------------------------------//
 /*!
@@ -37,8 +38,10 @@ int main(int argc, char** argv)
     }
 
     // >>> PARSE JSON INPUT
-    std::ifstream  input_stream(argv[1]);
-    static nlohmann::json json = nlohmann::json::parse(input_stream);
+    std::ifstream input_stream(argv[1]);
+    // nlohmann::json json = nlohmann::json::parse(input_stream);
+    JsonReader::construct(input_stream);
+    const auto json = JsonReader::get_instance()->json();
 
     // >>> INITIALIZE RUN MANAGER
     G4RunManager run_manager;
@@ -47,6 +50,7 @@ int main(int argc, char** argv)
     // >>> CONSTRUCT GEOMETRY
     std::unique_ptr<DetectorConstruction> detector;
     std::string gdml_input = json.at("gdml").get<std::string>();
+
     if (!gdml_input.size())
     {
         detector = std::make_unique<DetectorConstruction>();
@@ -59,12 +63,10 @@ int main(int argc, char** argv)
     run_manager.SetUserInitialization(detector.release());
 
     // >>> LOAD PHYSICS LIST
-    auto physics_list = std::make_unique<PhysicsList>(json);
-    run_manager.SetUserInitialization(physics_list.release());
+    run_manager.SetUserInitialization(new PhysicsList());
 
     // >>> INITIALIZE SIMULATION
-    auto action_initialization = std::make_unique<ActionInitialization>(json);
-    run_manager.SetUserInitialization(action_initialization.release());
+    run_manager.SetUserInitialization(new ActionInitialization());
 
     // >>> INITIALIZE USER INTERFACE
     G4UImanager*    ui_manager = G4UImanager::GetUIpointer();

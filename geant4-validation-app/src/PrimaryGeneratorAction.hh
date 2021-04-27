@@ -11,7 +11,6 @@
 #include <G4VUserPrimaryGeneratorAction.hh>
 #include <G4Event.hh>
 #include <G4ParticleGun.hh>
-#include <nlohmann/json.hpp>
 
 //---------------------------------------------------------------------------//
 /*!
@@ -24,10 +23,12 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     ~PrimaryGeneratorAction();
 
     void GeneratePrimaries(G4Event* event) override;
-    void set_particle_gun(nlohmann::json json_input);
 
   private:
-    struct Primary
+    void set_particle_gun();
+
+  private:
+    struct ParticleGunSetup
     {
         int           pdg;
         double        energy;

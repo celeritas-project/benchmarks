@@ -15,16 +15,9 @@
  * Default constructor and destructor.
  */
 RunAction::RunAction() : G4UserRunAction() {}
-RunAction::~RunAction() = default;
 
 //---------------------------------------------------------------------------//
-/*!
- * Set ROOT output filename.
- */
-void RunAction::set_output_filename(const std::string root_filename)
-{
-    geant_root_output_filename_ = root_filename;
-}
+RunAction::~RunAction() = default;
 
 //---------------------------------------------------------------------------//
 /*!
@@ -32,7 +25,7 @@ void RunAction::set_output_filename(const std::string root_filename)
  */
 void RunAction::BeginOfRunAction(const G4Run*)
 {
-    RootIO::construct(geant_root_output_filename_);
+    RootIO::construct();
 }
 
 //---------------------------------------------------------------------------//

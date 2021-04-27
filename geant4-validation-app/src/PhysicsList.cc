@@ -27,22 +27,27 @@
 #include <G4eCoulombScatteringModel.hh>
 #include <G4CoulombScattering.hh>
 
+#include "JsonReader.hh"
+
 //---------------------------------------------------------------------------//
 /*!
  * Constructor and destructor.
  */
-PhysicsList::PhysicsList(nlohmann::json json_input) : G4VUserPhysicsList()
+PhysicsList::PhysicsList() : G4VUserPhysicsList()
 {
+    const auto json = JsonReader::get_instance()->json();
+
     // Update selected processes
     for (auto map : selected_processes_)
     {
         bool selection
-            = json_input.at("physics").at("list").at(map.first).get<bool>();
+            = json.at("physics").at("list").at(map.first).get<bool>();
+
         selected_processes_.at(map.first) = selection;
     }
 
     // Set verbosity level
-    int level = json_input.at("physics").at("verbosity").get<int>();
+    int level = json.at("physics").at("verbosity").get<int>();
     G4EmParameters::Instance()->SetVerbose(level);
 }
 

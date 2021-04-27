@@ -10,7 +10,6 @@
 
 #include <string>
 #include <G4VUserActionInitialization.hh>
-#include <nlohmann/json.hpp>
 
 //---------------------------------------------------------------------------//
 /*!
@@ -20,11 +19,8 @@
 class ActionInitialization : public G4VUserActionInitialization
 {
   public:
-    ActionInitialization(nlohmann::json json_input);
+    ActionInitialization();
     ~ActionInitialization();
 
     void Build() const override;
-
-  private:
-    nlohmann::json json_input_;
 };

@@ -10,14 +10,16 @@
 #include <G4VProcess.hh>
 #include <G4SystemOfUnits.hh>
 #include "RootIO.hh"
+#include "JsonReader.hh"
 
 //---------------------------------------------------------------------------//
 /*!
  * Constructor and default destructor.
  */
-SteppingAction::SteppingAction(bool save_step_data)
-    : G4UserSteppingAction(), save_step_data_(save_step_data)
+SteppingAction::SteppingAction() : G4UserSteppingAction()
 {
+    const auto json = JsonReader::get_instance()->json();
+    save_step_data_ = json.at("step_info").get<bool>();
 }
 
 SteppingAction::~SteppingAction() = default;

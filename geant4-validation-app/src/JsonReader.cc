@@ -5,18 +5,15 @@
 //---------------------------------------------------------------------------//
 //! \file RootIO.cc
 //---------------------------------------------------------------------------//
-#include "RootIO.hh"
-
-#include <memory>
-#include <iostream>
-
 #include "JsonReader.hh"
+
+#include <iostream>
 
 //---------------------------------------------------------------------------//
 /*!
  * Singleton declaration.
  */
-static RootIO* rootio_singleton = nullptr;
+static JsonReader* json_reader_singleton = nullptr;
 
 //---------------------------------------------------------------------------//
 // PUBLIC
@@ -26,11 +23,11 @@ static RootIO* rootio_singleton = nullptr;
 /*!
  * Constructor singleton.
  */
-void RootIO::construct()
+void JsonReader::construct(std::ifstream& json_filename)
 {
-    if (!rootio_singleton)
+    if (!json_reader_singleton)
     {
-        rootio_singleton = new RootIO();
+        json_reader_singleton = new JsonReader(json_filename);
     }
     else
     {
@@ -41,29 +38,22 @@ void RootIO::construct()
 
 //---------------------------------------------------------------------------//
 /*!
- * Get static RootIO instance. \c construct() *MUST* be called before this.
+ * Get static JsonReader instance. 
+ *
+ * \c JsonReader::construct() *MUST* be called before this.
  */
-RootIO* RootIO::get_instance()
+JsonReader* JsonReader::get_instance()
 {
-    return rootio_singleton;
+    return json_reader_singleton;
 }
 
 //---------------------------------------------------------------------------//
 /*!
- * Clear event_ struct.
+ * Get loaded json.
  */
-void RootIO::clear_event()
+nlohmann::json& JsonReader::json()
 {
-    event_ = utils::Event();
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Clear track_ struct.
- */
-void RootIO::clear_track()
-{
-    track_ = utils::Track();
+    return json_;
 }
 
 //---------------------------------------------------------------------------//
@@ -72,14 +62,9 @@ void RootIO::clear_track()
 
 //---------------------------------------------------------------------------//
 /*!
- * Construct new TFile with given root filename.
+ * Construct from json filename.
  */
-RootIO::RootIO()
+JsonReader::JsonReader(std::ifstream& json_filename)
 {
-    const auto  json          = JsonReader::get_instance()->json();
-    std::string root_filename = json.at("root_output").get<std::string>();
-
-    tfile_.reset(TFile::Open(root_filename.c_str(), "recreate"));
-    ttree_event_ = std::make_unique<TTree>("event", "event");
-    ttree_event_->Branch("event", &event_);
+    json_ = nlohmann::json::parse(json_filename);
 }
