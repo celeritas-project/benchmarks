@@ -41,13 +41,13 @@ PhysicsList::PhysicsList() : G4VUserPhysicsList()
     for (auto map : selected_processes_)
     {
         bool selection
-            = json.at("physics").at("list").at(map.first).get<bool>();
+            = json.at("physics").at(map.first).get<bool>();
 
         selected_processes_.at(map.first) = selection;
     }
 
     // Set verbosity level
-    int level = json.at("physics").at("verbosity").get<int>();
+    int level = json.at("verbosity").at("PhysicsList").get<int>();
     G4EmParameters::Instance()->SetVerbose(level);
 }
 

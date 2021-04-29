@@ -6,6 +6,12 @@
  * The new output uses an Event based structure to save data
  */
 
+#include <iostream>
+#include <TFile.h>
+#include <TTree.h>
+#include <TBranch.h>
+#include <TLeaf.h>
+
 #include "Event.h"
 
 // I/O info
@@ -45,8 +51,8 @@ void root_post_process()
         if (current_percent > printed_percent)
         {
             printed_percent = current_percent;
-            cout << "\rCreating " << output_file << "... " << printed_percent
-                 << "%" << flush;
+            std::cout << "\rCreating " << output_file << "... " << printed_percent
+                 << "%" << std::flush;
         }
 
         tree_step->GetEntry(step_i);
@@ -132,7 +138,7 @@ void root_post_process()
                 = tree_step->GetLeaf("energy_loss")->GetValue();
 
             // Save vertex to this event
-            event.vertices.push_back(vertex_eloss);
+            event.vertices.push_back(std::move(vertex_eloss));
         }
 
         // If there is a secondary
@@ -186,7 +192,7 @@ void root_post_process()
                     vertex.secondary.energy
                         = tree_vertex->GetLeaf("kinetic_energy")->GetValue();
 
-                    event.vertices.push_back(vertex);
+                    event.vertices.push_back(std::move(vertex));
                     break;
                 }
 
@@ -199,7 +205,7 @@ void root_post_process()
     // Fill very last event
     tree_events->Fill();
 
-    cout << "\rCreating " << output_file << "... Done!" << endl;
+    std::cout << "\rCreating " << output_file << "... Done!" << std::endl;
 
     tree_events->Write();
     output->Write();

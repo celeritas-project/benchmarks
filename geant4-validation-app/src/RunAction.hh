@@ -13,7 +13,8 @@
 
 //---------------------------------------------------------------------------//
 /*!
- * Manage simulation run. Create and write the output ROOT file to disk.
+ * Manage simulation run.
+ * Write the output ROOT file created by RootIO to disk.
  */
 class RunAction : public G4UserRunAction
 {
@@ -25,5 +26,5 @@ class RunAction : public G4UserRunAction
     void EndOfRunAction(const G4Run*) override;
 
   private:
-    void CreateRootNtuples();
+    void fill_cumulative();
 };

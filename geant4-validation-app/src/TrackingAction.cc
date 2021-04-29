@@ -55,6 +55,6 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
     else
     {
         // Fill secondary information
-        root_io->event_.secondaries.push_back(root_io->track_);
+        root_io->event_.secondaries.push_back(std::move(root_io->track_));
     }
 }

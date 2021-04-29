@@ -8,13 +8,20 @@
 #include "EventAction.hh"
 
 #include <G4Event.hh>
+#include <G4EventManager.hh>
 #include "RootIO.hh"
+#include "JsonReader.hh"
 
 //---------------------------------------------------------------------------//
 /*
  * Constructor and default destructor.
  */
-EventAction::EventAction() : G4UserEventAction() {}
+EventAction::EventAction() : G4UserEventAction()
+{
+    const auto json = JsonReader::get_instance()->json();
+    G4EventManager::GetEventManager()->SetVerboseLevel(
+        json.at("verbosity").at("EventAction").get<int>());
+}
 
 //---------------------------------------------------------------------------//
 EventAction::~EventAction() = default;

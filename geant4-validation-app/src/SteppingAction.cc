@@ -18,10 +18,12 @@
  */
 SteppingAction::SteppingAction() : G4UserSteppingAction()
 {
+    // Step info
     const auto json = JsonReader::get_instance()->json();
     save_step_data_ = json.at("step_info").get<bool>();
 }
 
+//---------------------------------------------------------------------------//
 SteppingAction::~SteppingAction() = default;
 
 //---------------------------------------------------------------------------//
@@ -33,9 +35,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     auto root_io = RootIO::get_instance();
     root_io->track_.energy_dep += step->GetTotalEnergyDeposit() / MeV;
 
+    this->fill_cumulative(step);
+
     if (save_step_data_)
     {
-        fill_rootio_step_data(step);
+        this->fill_rootio_step_data(step);
     }
 }
 
@@ -58,5 +62,33 @@ void SteppingAction::fill_rootio_step_data(const G4Step* step)
     this_step.position       = {pos.x(), pos.y(), pos.z()};
     this_step.direction      = {dir.x(), dir.y(), dir.z()};
 
-    root_io->track_.steps.push_back(this_step);
+    root_io->track_.steps.push_back(std::move(this_step));
+}
+
+//---------------------------------------------------------------------------//
+/*!
+ * Populate cumulative histograms.
+ */
+void SteppingAction::fill_cumulative(const G4Step* step)
+{
+    auto root_io = RootIO::get_instance();
+    
+    const G4ThreeVector pos = step->GetTrack()->GetPosition() / cm;
+
+    for (unsigned long i = 0; i < root_io->gr_bins_.size(); i++)
+    {
+        const auto& bin = root_io->gr_bins_.at(i);
+
+        for (int j = 0; j < 3; j++)
+        {
+            if (pos[j] >= bin.x_min && pos[j] < bin.x_max)
+            {
+                // Add to graph energy deposited in the material
+                const double dedx_i = step->GetTotalEnergyDeposit() / MeV;
+                double       x, y;
+                root_io->gr_dedx_[j]->GetPoint(i, x, y);
+                root_io->gr_dedx_[j]->SetPoint(i, x, y + dedx_i);
+            }
+        }
+    }
 }

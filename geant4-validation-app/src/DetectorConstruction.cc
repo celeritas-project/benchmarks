@@ -19,14 +19,16 @@
 /*!
  * Construct with programmatic geometry.
  */
-DetectorConstruction::DetectorConstruction() : use_gdml_(false) {}
+DetectorConstruction::DetectorConstruction()
+{
+    phys_vol_world_.reset(CreateCMSGeometry());
+}
 
 //---------------------------------------------------------------------------//
 /*!
  * Construct with gdml geometry.
  */
 DetectorConstruction::DetectorConstruction(std::string gdml_input_file)
-    : use_gdml_(true)
 {
     G4GDMLParser   gdml_parser;
     constexpr bool validate_gdml_schema = false;
@@ -46,11 +48,6 @@ DetectorConstruction::~DetectorConstruction() = default;
  */
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-    if (!use_gdml_)
-    {
-        phys_vol_world_.reset(CreateCMSGeometry());
-    }
-
     return phys_vol_world_.release();
 }
 

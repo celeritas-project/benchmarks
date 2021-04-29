@@ -7,25 +7,25 @@
 //! \brief Geant4 validation app.
 //---------------------------------------------------------------------------//
 #include <fstream>
+
 #include <G4RunManager.hh>
 #include <G4UImanager.hh>
 #include <G4VisExecutive.hh>
 #include <G4UIExecutive.hh>
-#include <nlohmann/json.hpp>
 
 #include "src/DetectorConstruction.hh"
 #include "src/PhysicsList.hh"
 #include "src/ActionInitialization.hh"
-#include "JsonReader.hh"
+#include "src/JsonReader.hh"
 
 //---------------------------------------------------------------------------//
 /*!
  * Small validation app. All options are selected via a json input file.
  *
- * 1. Load geometry (programmatically or via a gdml input)
- * 2. Load physics list.
- * 3. Run a simulation using the particle gun.
- * 4. Store data into a ROOT output file.
+ * - Load geometry (programmatically or via a gdml input)
+ * - Load physics list.
+ * - Run a simulation using the particle gun.
+ * - Store data into a ROOT output file.
  */
 int main(int argc, char** argv)
 {
@@ -37,43 +37,41 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    // >>> PARSE JSON INPUT
+    // Parse json input file
     std::ifstream input_stream(argv[1]);
-    // nlohmann::json json = nlohmann::json::parse(input_stream);
     JsonReader::construct(input_stream);
     const auto json = JsonReader::get_instance()->json();
 
-    // >>> INITIALIZE RUN MANAGER
+    // Initialize run manager
     G4RunManager run_manager;
-    run_manager.SetVerboseLevel(0);
+    run_manager.SetVerboseLevel(
+        json.at("verbosity").at("RunManager").get<int>());
 
-    // >>> CONSTRUCT GEOMETRY
-    std::unique_ptr<DetectorConstruction> detector;
+    // Initialize geometry
     std::string gdml_input = json.at("gdml").get<std::string>();
 
-    if (!gdml_input.size())
+    if (gdml_input.empty())
     {
-        detector = std::make_unique<DetectorConstruction>();
-        // detector->export_gdml("simple_cms.gdml");
+        run_manager.SetUserInitialization(new DetectorConstruction());
     }
+
     else
     {
-        detector = std::make_unique<DetectorConstruction>(gdml_input);
+        run_manager.SetUserInitialization(new DetectorConstruction(gdml_input));
     }
-    run_manager.SetUserInitialization(detector.release());
 
-    // >>> LOAD PHYSICS LIST
+    // Load physics list
     run_manager.SetUserInitialization(new PhysicsList());
 
-    // >>> INITIALIZE SIMULATION
+    // Initialize simulation
     run_manager.SetUserInitialization(new ActionInitialization());
 
-    // >>> INITIALIZE USER INTERFACE
     G4UImanager*    ui_manager = G4UImanager::GetUIpointer();
     G4UIExecutive*  user_interface;
     G4VisExecutive* vis_manager;
     ui_manager->ApplyCommand("/run/initialize");
 
+    // Set up GUI
     bool gui_interface = json.at("GUI").get<bool>();
     if (gui_interface)
     {
@@ -85,14 +83,14 @@ int main(int argc, char** argv)
         ui_manager->ApplyCommand(vis_macro);
     }
 
-    // >>> RUN EVENTS
+    // Run events
     std::string run_beamOn = "/run/beamOn "
                              + json.at("events").get<std::string>();
     ui_manager->ApplyCommand(run_beamOn.c_str());
 
     if (gui_interface)
     {
-        // Open interface
+        // Open GUI
         user_interface->SessionStart();
     }
 

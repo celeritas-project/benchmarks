@@ -10,9 +10,12 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
 #include <TFile.h>
 #include <TTree.h>
+#include <TDirectory.h>
+#include <TGraph.h>
 
 #include "Event.hh"
 
@@ -36,20 +39,23 @@ class RootIO
     // Get singleton instance
     static RootIO* get_instance();
 
-    // Clear utils::Event object
+    // Clear event_
     void clear_event();
 
-    // Clear utils::Track object
+    // Clear track_
     void clear_track();
 
   public:
-    // >>> TFile structure
-    std::unique_ptr<TFile> tfile_;
-    std::unique_ptr<TTree> ttree_event_;
+    // TFile structure
+    std::unique_ptr<TFile>      tfile_;
+    std::unique_ptr<TTree>      ttree_event_;
+    std::unique_ptr<TDirectory> tdir_hists_;
 
-    // >>> Branch objects
-    utils::Event event_;
-    utils::Track track_;
+    // Objects in TFile
+    utils::Event            event_;
+    utils::Track            track_;
+    std::unique_ptr<TGraph> gr_dedx_[3];
+    std::vector<utils::Bin> gr_bins_;
 
   private:
     RootIO();

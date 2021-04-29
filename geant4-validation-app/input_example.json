@@ -5,6 +5,10 @@
     "vis_macro": "vis.mac",
     "events": "10",
     "step_info": true,
+    "cumulative":
+    {
+        "dedx": [100, 0, 100]
+    },
     "primary": {
         "pdg": 22,
         "energy": 10,
@@ -12,17 +16,21 @@
         "direction": [0, 0, 1]
     },
     "physics": {
-        "verbosity": 1,
-        "list": {
-            "compton_scattering": true,
-            "photoelectric": false,
-            "rayleigh": false,
-            "gamma_conversion": true,
-            "positron_annihilation": true,
-            "bremmstrahlung": false,
-            "multiple_scattering": false,
-            "e_ionization": false,
-            "coulomb_scattering": false
-        }
+        "compton_scattering": true,
+        "photoelectric": false,
+        "rayleigh": false,
+        "gamma_conversion": true,
+        "positron_annihilation": true,
+        "bremmstrahlung": false,
+        "multiple_scattering": false,
+        "e_ionization": false,
+        "coulomb_scattering": false
+    },
+    "verbosity":
+    {
+        "RunManager": 0,
+        "RunAction": 0,
+        "EventAction": 0,
+        "PhysicsList": 0
     }
 }

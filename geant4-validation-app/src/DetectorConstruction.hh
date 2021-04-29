@@ -10,6 +10,7 @@
 
 #include <string>
 #include <G4VUserDetectorConstruction.hh>
+#include <G4VPhysicalVolume.hh>
 
 //---------------------------------------------------------------------------//
 /*!
@@ -38,6 +39,5 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* CreateCMSGeometry();
 
   private:
-    bool                               use_gdml_;
     std::unique_ptr<G4VPhysicalVolume> phys_vol_world_;
 };

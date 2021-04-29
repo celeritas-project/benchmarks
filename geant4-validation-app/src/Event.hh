@@ -24,6 +24,30 @@ struct Vector3
     double x;
     double y;
     double z;
+
+    double operator[](int i) const
+    {
+        switch (i)
+        {
+            case 0:
+                return this->x;
+                break;
+            case 1:
+                return this->y;
+                break;
+            case 2:
+                return this->z;
+                break;
+            default:
+                return this->x;
+        }
+    }
+};
+
+struct Bin
+{
+    double x_min;
+    double x_max;
 };
 
 struct Step

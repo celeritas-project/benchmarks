@@ -19,6 +19,7 @@
 PrimaryGeneratorAction::PrimaryGeneratorAction()
     : G4VUserPrimaryGeneratorAction()
 {
+    this->set_particle_gun();
 }
 
 //---------------------------------------------------------------------------//
@@ -32,6 +33,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
     particle_gun_->GeneratePrimaryVertex(event);
 }
+
+//---------------------------------------------------------------------------//
+// PRIVATE
+//---------------------------------------------------------------------------//
 
 //---------------------------------------------------------------------------//
 /*!
