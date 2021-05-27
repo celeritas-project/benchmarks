@@ -71,14 +71,15 @@ void SteppingAction::fill_rootio_step_data(const G4Step* step)
  */
 void SteppingAction::fill_cumulative(const G4Step* step)
 {
-    auto root_io = RootIO::get_instance();
-    
-    const G4ThreeVector pos = step->GetTrack()->GetPosition() / cm;
+    auto                root_io = RootIO::get_instance();
+    const G4ThreeVector pos     = step->GetTrack()->GetPosition() / cm;
 
+    // Loop over bins
     for (unsigned long i = 0; i < root_io->gr_bins_.size(); i++)
     {
         const auto& bin = root_io->gr_bins_.at(i);
 
+        // Loop over coordinates
         for (int j = 0; j < 3; j++)
         {
             if (pos[j] >= bin.x_min && pos[j] < bin.x_max)

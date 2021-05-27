@@ -39,7 +39,7 @@ struct Vector3
                 return this->z;
                 break;
             default:
-                return this->x;
+                return 0;
         }
     }
 };

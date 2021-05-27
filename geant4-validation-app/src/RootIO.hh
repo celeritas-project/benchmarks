@@ -11,12 +11,10 @@
 #include <string>
 #include <memory>
 #include <vector>
-
 #include <TFile.h>
 #include <TTree.h>
 #include <TDirectory.h>
 #include <TGraph.h>
-
 #include "Event.hh"
 
 //---------------------------------------------------------------------------//

@@ -34,9 +34,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
   private:
     // Define programmatic geometry: Al cube
-    G4VPhysicalVolume* CreateGeometry();
+    G4VPhysicalVolume* create_Al_cube();
     // Define programmatic geometry: single-material CMS mock up
-    G4VPhysicalVolume* CreateCMSGeometry();
+    G4VPhysicalVolume* create_simple_cms();
 
   private:
     std::unique_ptr<G4VPhysicalVolume> phys_vol_world_;

@@ -43,7 +43,7 @@ void RunAction::EndOfRunAction(const G4Run*)
     auto root_io = RootIO::get_instance();
     root_io->ttree_event_->Write();
 
-    // this->fill_cumulative();
+    this->fill_cumulative();
 
     root_io->tdir_hists_->cd();
     for (int i = 0; i < 3; i++)

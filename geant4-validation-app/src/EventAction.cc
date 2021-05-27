@@ -35,6 +35,12 @@ void EventAction::BeginOfEventAction(const G4Event* event)
     auto root_io = RootIO::get_instance();
     root_io->clear_event();
     root_io->event_.id = event->GetEventID();
+
+    if (event->GetEventID() % 10000 == 0)
+    {
+        std::cout << "Event: " << event->GetEventID() << std::endl;
+        std::cout << std::flush;
+    }
 }
 
 //---------------------------------------------------------------------------//

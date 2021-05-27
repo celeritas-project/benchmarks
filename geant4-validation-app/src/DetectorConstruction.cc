@@ -21,7 +21,7 @@
  */
 DetectorConstruction::DetectorConstruction()
 {
-    phys_vol_world_.reset(CreateCMSGeometry());
+    phys_vol_world_.reset(this->create_simple_cms());
 }
 
 //---------------------------------------------------------------------------//
@@ -58,7 +58,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 void DetectorConstruction::export_gdml(std::string gdml_filename)
 {
     G4GDMLParser parser;
-    parser.Write(gdml_filename, this->CreateCMSGeometry());
+    parser.Write(gdml_filename, this->create_simple_cms());
 }
 
 //---------------------------------------------------------------------------//
@@ -69,7 +69,7 @@ void DetectorConstruction::export_gdml(std::string gdml_filename)
 /*!
  * Programmatic geometry definition: Al cube.
  */
-G4VPhysicalVolume* DetectorConstruction::CreateGeometry()
+G4VPhysicalVolume* DetectorConstruction::create_Al_cube()
 {
     // Create all used materials
     G4NistManager* nist     = G4NistManager::Instance();
@@ -101,7 +101,7 @@ G4VPhysicalVolume* DetectorConstruction::CreateGeometry()
  * This is set of single-element concentric cylinders that act as a spherical
  * cow in a vacuum version of CMS.
  */
-G4VPhysicalVolume* DetectorConstruction::CreateCMSGeometry()
+G4VPhysicalVolume* DetectorConstruction::create_simple_cms()
 {
     // Create all used materials
     G4NistManager* nist   = G4NistManager::Instance();

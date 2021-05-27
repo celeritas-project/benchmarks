@@ -83,3 +83,21 @@ Although this requires recompiling the code, one can tweak the programmatic
 geometry by updating `DetectorConstruction` and use
 `DetectorConstruction::export_gdml("geo.gdml")` to export said geometry to
 a GDML file.
+
+# Programmatic geometry details
+
+- The `World volume` is a box, and its dimensions are expressed in cartesian
+coordinates `[x. y, z]`.  
+- **All** other volumes are concentric cylinders, and their dimensions are 
+expressed as `[inner radius, outer radius, length]`
+- A small distance between cylinder edges is defined to avoid overlapping and is
+currently set to be `d = 1e-10`;
+
+| Volume                       | Composition      | Dimensions [cm]    |
+| ---------------------------- | ---------------- | ------------------ |
+| World volume                 | H (G4_Galactic)  | [1000, 1000, 2000] |
+| silicon tracker              | Si               | [30, 125, 1400]    |
+| electromagnetic calorimeter  | Pb               | [125, 175, 1400]   |
+| hadron calorimeter           | C                | [175, 275, 1400]   |
+| superconducting solenoid     | Ti               | [275, 375, 1400]   |
+| iron / muon chambers         | Fe               | [375, 700, 1400]   |
