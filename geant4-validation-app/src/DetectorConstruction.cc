@@ -6,12 +6,15 @@
 //! \file DetectorConstruction.cc
 //---------------------------------------------------------------------------//
 #include "DetectorConstruction.hh"
+#include "SiTrackerSD.hh"
 
 #include <G4NistManager.hh>
 #include <G4Box.hh>
 #include <G4Tubs.hh>
 #include <G4LogicalVolume.hh>
 #include <G4PVPlacement.hh>
+#include <G4VSensitiveDetector.hh>
+#include <G4SDManager.hh>
 #include <G4SystemOfUnits.hh>
 #include <G4GDMLParser.hh>
 
@@ -58,7 +61,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 void DetectorConstruction::export_gdml(std::string gdml_filename)
 {
     G4GDMLParser parser;
-    parser.Write(gdml_filename, this->create_simple_cms());
+    parser.Write(gdml_filename, phys_vol_world_.get());
 }
 
 //---------------------------------------------------------------------------//
@@ -228,4 +231,23 @@ G4VPhysicalVolume* DetectorConstruction::create_simple_cms()
                       false);
 
     return world_pv;
+}
+
+//---------------------------------------------------------------------------//
+/*!
+ * Construct sensitive detectors.
+ */
+
+void DetectorConstruction::ConstructSDandField()
+{
+    // List of sensitive detectors
+    SiTrackerSD* si_tracker_sd
+        = new SiTrackerSD("si_tracker_sd", "si_collection");
+
+    // Add SD to manager
+    G4SDManager::GetSDMpointer()->AddNewDetector(si_tracker_sd);
+
+    // Make logical volume si_tracker_lv a sensitive detector
+    G4VUserDetectorConstruction::SetSensitiveDetector(
+        "si_tracker_lv", si_tracker_sd, true);
 }

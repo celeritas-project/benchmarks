@@ -9,6 +9,7 @@
 
 #include <G4Event.hh>
 #include <G4EventManager.hh>
+#include <G4SDManager.hh>
 #include "RootIO.hh"
 #include "JsonReader.hh"
 
@@ -35,19 +36,21 @@ void EventAction::BeginOfEventAction(const G4Event* event)
     auto root_io = RootIO::get_instance();
     root_io->clear_event();
     root_io->event_.id = event->GetEventID();
-
-    if (event->GetEventID() % 10000 == 0)
-    {
-        std::cout << "Event: " << event->GetEventID() << std::endl;
-        std::cout << std::flush;
-    }
 }
 
 //---------------------------------------------------------------------------//
 /*
  * End of event actions.
  */
-void EventAction::EndOfEventAction(const G4Event*)
+void EventAction::EndOfEventAction(const G4Event* event)
 {
     RootIO::get_instance()->ttree_event_->Fill();
+
+    const int si_col_id
+        = G4SDManager::GetSDMpointer()->GetHCtable()->GetCollectionID(
+            "si_collection");
+    const auto hits = event->GetHCofThisEvent()->GetHC(si_col_id);
+
+    // Get deposited energy from hit collection
+    hits->PrintAllHits();
 }

@@ -3,23 +3,23 @@
 // See the top-level COPYRIGHT file for details.
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
-//! \file EventAction.hh
-//! \brief Event management.
+//! \file TrackerHit.cc
 //---------------------------------------------------------------------------//
-#pragma once
-
-#include <G4UserEventAction.hh>
+#include "TrackerHit.hh"
 
 //---------------------------------------------------------------------------//
 /*!
- * Manage event execution and save event information.
+ * Default constructor and destructor.
  */
-class EventAction : public G4UserEventAction
-{
-  public:
-    EventAction();
-    ~EventAction();
+TrackerHit::TrackerHit() : G4VHit() {}
 
-    void BeginOfEventAction(const G4Event* event) override;
-    void EndOfEventAction(const G4Event* event) override;
-};
+TrackerHit::~TrackerHit() = default;
+
+//---------------------------------------------------------------------------//
+/*!
+ * Increment the energy deposition.
+ */
+void TrackerHit::add_energy_dep(const double energy)
+{
+    energy_dep_ += energy;
+}

@@ -74,11 +74,11 @@ void RootIO::clear_track()
  */
 RootIO::RootIO()
 {
-    const auto  json  = JsonReader::get_instance()->json();
-    int         nbins = json.at("cumulative").at("dedx")[0].get<int>();
-    double      min   = json.at("cumulative").at("dedx")[1].get<double>();
-    double      max   = json.at("cumulative").at("dedx")[2].get<double>();
-    std::string root_filename = json.at("root_output").get<std::string>();
+    const auto   json  = JsonReader::get_instance()->json();
+    const int    nbins = json.at("cumulative").at("dedx")[0].get<int>();
+    const double min   = json.at("cumulative").at("dedx")[1].get<double>();
+    const double max   = json.at("cumulative").at("dedx")[2].get<double>();
+    std::string  root_filename = json.at("root_output").get<std::string>();
 
     tfile_.reset(TFile::Open(root_filename.c_str(), "recreate"));
     ttree_event_ = std::make_unique<TTree>("event", "event");

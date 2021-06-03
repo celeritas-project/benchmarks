@@ -8,6 +8,7 @@
 #include "RunAction.hh"
 
 #include <G4RunManager.hh>
+#include <G4HCtable.hh>
 #include "RootIO.hh"
 #include "JsonReader.hh"
 
@@ -18,8 +19,14 @@
 RunAction::RunAction() : G4UserRunAction()
 {
     const auto json = JsonReader::get_instance()->json();
+
     G4RunManager::GetRunManager()->SetVerboseLevel(
         json.at("verbosity").at("RunAction").get<int>());
+
+    if (const int n_evts = json.at("verbosity").at("PrintProgress").get<int>())
+    {
+        G4RunManager::GetRunManager()->SetPrintProgress(n_evts);
+    }
 }
 
 //---------------------------------------------------------------------------//

@@ -3,23 +3,28 @@
 // See the top-level COPYRIGHT file for details.
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
-//! \file EventAction.hh
-//! \brief Event management.
+//! \file TrackerHit.hh
+//! \brief Silicon Tracker sensitive detector hit
 //---------------------------------------------------------------------------//
 #pragma once
 
-#include <G4UserEventAction.hh>
+#include <G4VHit.hh>
+#include <G4THitsCollection.hh>
 
 //---------------------------------------------------------------------------//
 /*!
- * Manage event execution and save event information.
+ * Define interface for the Silicon Tracker Sensitive detector hits
  */
-class EventAction : public G4UserEventAction
+class TrackerHit : public G4VHit
 {
   public:
-    EventAction();
-    ~EventAction();
+    TrackerHit();
+    ~TrackerHit();
 
-    void BeginOfEventAction(const G4Event* event) override;
-    void EndOfEventAction(const G4Event* event) override;
+    void add_energy_dep(const double energy);
+
+  private:
+    double energy_dep_;
 };
+
+typedef G4THitsCollection<TrackerHit> TrackerHitsCollection;

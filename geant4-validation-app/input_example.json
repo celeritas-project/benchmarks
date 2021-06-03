@@ -31,6 +31,7 @@
         "RunManager": 0,
         "RunAction": 0,
         "EventAction": 0,
-        "PhysicsList": 0
+        "PhysicsList": 0,
+        "PrintProgress": 1000
     }
 }
