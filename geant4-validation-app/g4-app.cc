@@ -9,7 +9,6 @@
 #include <fstream>
 
 #include <G4RunManager.hh>
-#include <G4ScoringManager.hh>
 #include <G4UImanager.hh>
 #include <G4VisExecutive.hh>
 #include <G4UIExecutive.hh>
@@ -49,35 +48,16 @@ int main(int argc, char** argv)
     run_manager.SetVerboseLevel(
         json.at("verbosity").at("RunManager").get<int>());
 
-    // TODO decide to keep scoring or not (remove include if not)
-    G4ScoringManager* scoring_manager = G4ScoringManager::GetScoringManager();
-
     // Initialize geometry
-    std::string gdml_input = json.at("gdml").get<std::string>();
+    run_manager.SetUserInitialization(new DetectorConstruction());
 
-    DetectorConstruction* det = new DetectorConstruction();
-    // det.export_gdml("new_cms.gdml");
-
-    if (gdml_input.empty())
-    {
-        // run_manager.SetUserInitialization(new DetectorConstruction());
-        run_manager.SetUserInitialization(det);
-    }
-
-    else
-    {
-        run_manager.SetUserInitialization(new DetectorConstruction(gdml_input));
-    }
-
-    G4GDMLParser parser;
-    parser.Write("testout.gdml", det->get_world_volume());
-
-    // Load physics list
+    // Initialize physics list
     run_manager.SetUserInitialization(new PhysicsList());
 
     // Initialize simulation
     run_manager.SetUserInitialization(new ActionInitialization());
 
+    // Initialize user interface
     G4UImanager*    ui_manager = G4UImanager::GetUIpointer();
     G4UIExecutive*  user_interface;
     G4VisExecutive* vis_manager;
@@ -99,6 +79,17 @@ int main(int argc, char** argv)
     std::string run_beamOn = "/run/beamOn "
                              + json.at("events").get<std::string>();
     ui_manager->ApplyCommand(run_beamOn.c_str());
+
+    // Export gdml
+    const std::string export_gdml = json.at("export_gdml").get<std::string>();
+    if (!export_gdml.empty())
+    {
+        G4GDMLParser parser;
+        std::string export_cmd = "/persistency/gdml/write " + export_gdml;
+        ui_manager->ApplyCommand("/persistency/gdml/export_SD true");
+        ui_manager->ApplyCommand("/persistency/gdml/export_Ecuts true");
+        ui_manager->ApplyCommand(export_cmd);
+    }
 
     if (gui_interface)
     {

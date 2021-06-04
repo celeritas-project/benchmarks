@@ -1,6 +1,6 @@
 {
-    "gdml": "",
     "root_output": "g4_out.root",
+    "export_gdml": "",
     "GUI": true,
     "vis_macro": "vis.mac",
     "events": "10",

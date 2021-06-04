@@ -20,24 +20,9 @@
 
 //---------------------------------------------------------------------------//
 /*!
- * Construct with programmatic geometry.
+ * Construct empty.
  */
-DetectorConstruction::DetectorConstruction()
-{
-    phys_vol_world_.reset(this->create_simple_cms());
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Construct with gdml geometry.
- */
-DetectorConstruction::DetectorConstruction(std::string gdml_input_file)
-{
-    G4GDMLParser   gdml_parser;
-    constexpr bool validate_gdml_schema = false;
-    gdml_parser.Read(gdml_input_file, validate_gdml_schema);
-    phys_vol_world_.reset(gdml_parser.GetWorldVolume());
-}
+DetectorConstruction::DetectorConstruction() {}
 
 //---------------------------------------------------------------------------//
 /*!
@@ -47,21 +32,30 @@ DetectorConstruction::~DetectorConstruction() = default;
 
 //---------------------------------------------------------------------------//
 /*!
- * Construct geometry.
+ * Mandatory Construct function.
  */
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
+    phys_vol_world_.reset(this->create_simple_cms());
     return phys_vol_world_.release();
 }
 
 //---------------------------------------------------------------------------//
 /*!
- * Export GDML file representing the programmatic geometry.
+ * Set sensitive detectors.
  */
-void DetectorConstruction::export_gdml(std::string gdml_filename)
+void DetectorConstruction::ConstructSDandField()
 {
-    G4GDMLParser parser;
-    parser.Write(gdml_filename, phys_vol_world_.get());
+    // List of sensitive detectors
+    SiTrackerSD* si_tracker_sd
+        = new SiTrackerSD("si_tracker_sd", "si_collection");
+
+    // Add SD to manager
+    G4SDManager::GetSDMpointer()->AddNewDetector(si_tracker_sd);
+
+    // Make logical volume si_tracker_lv a sensitive detector
+    G4VUserDetectorConstruction::SetSensitiveDetector("si_tracker_lv",
+                                                      si_tracker_sd);
 }
 
 //---------------------------------------------------------------------------//
@@ -70,38 +64,9 @@ void DetectorConstruction::export_gdml(std::string gdml_filename)
 
 //---------------------------------------------------------------------------//
 /*!
- * Programmatic geometry definition: Al cube.
- */
-G4VPhysicalVolume* DetectorConstruction::create_Al_cube()
-{
-    // Create all used materials
-    G4NistManager* nist     = G4NistManager::Instance();
-    G4Material*    material = nist->FindOrBuildMaterial("G4_Al");
-
-    // Define size of all objects
-    const double world_size = 100 * km;
-
-    // List of geometry objects
-    G4Box* world_box
-        = new G4Box("world_box", world_size, world_size, world_size);
-
-    // Create volume
-    G4LogicalVolume* world_logical_volume;
-    world_logical_volume
-        = new G4LogicalVolume(world_box, material, "world_logical_volume");
-
-    G4VPhysicalVolume* world_physical_volume;
-    world_physical_volume = new G4PVPlacement(
-        0, G4ThreeVector(), world_logical_volume, "world", 0, false, 0, false);
-
-    return world_physical_volume;
-}
-
-//---------------------------------------------------------------------------//
-/*!
  * Programmatic geometry definition: Single material CMS mock up.
  *
- * This is set of single-element concentric cylinders that act as a spherical
+ * This is set of single-element concentric cylinders that act as a cylindrical
  * cow in a vacuum version of CMS.
  */
 G4VPhysicalVolume* DetectorConstruction::create_simple_cms()
@@ -231,23 +196,4 @@ G4VPhysicalVolume* DetectorConstruction::create_simple_cms()
                       false);
 
     return world_pv;
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Construct sensitive detectors.
- */
-
-void DetectorConstruction::ConstructSDandField()
-{
-    // List of sensitive detectors
-    SiTrackerSD* si_tracker_sd
-        = new SiTrackerSD("si_tracker_sd", "si_collection");
-
-    // Add SD to manager
-    G4SDManager::GetSDMpointer()->AddNewDetector(si_tracker_sd);
-
-    // Make logical volume si_tracker_lv a sensitive detector
-    G4VUserDetectorConstruction::SetSensitiveDetector(
-        "si_tracker_lv", si_tracker_sd, true);
 }
