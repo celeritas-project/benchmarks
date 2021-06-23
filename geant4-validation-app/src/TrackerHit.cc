@@ -6,6 +6,7 @@
 //! \file TrackerHit.cc
 //---------------------------------------------------------------------------//
 #include "TrackerHit.hh"
+#include <iostream>
 
 //---------------------------------------------------------------------------//
 /*!
@@ -22,4 +23,14 @@ TrackerHit::~TrackerHit() = default;
 void TrackerHit::add_energy_dep(const double energy)
 {
     energy_dep_ += energy;
+}
+
+//---------------------------------------------------------------------------//
+/*!
+ * Print hit information.
+ */
+void TrackerHit::print()
+{
+    std::cout << "trackid/position: " << track_id_ << " / " << hit_position_
+              << std::endl;
 }

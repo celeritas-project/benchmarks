@@ -28,9 +28,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* Construct() override;
     void               ConstructSDandField() override;
 
-    // TEMP
-    G4VPhysicalVolume* get_world_volume() { return phys_vol_world_.get(); }
-
   private:
     // Define programmatic geometry: single-material CMS mock up
     G4VPhysicalVolume* create_simple_cms();

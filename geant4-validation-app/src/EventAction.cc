@@ -46,11 +46,11 @@ void EventAction::EndOfEventAction(const G4Event* event)
 {
     RootIO::get_instance()->ttree_event_->Fill();
 
-    const int si_col_id
-        = G4SDManager::GetSDMpointer()->GetHCtable()->GetCollectionID(
-            "si_collection");
-    const auto hits = event->GetHCofThisEvent()->GetHC(si_col_id);
-
-    // Get deposited energy from hit collection
-    hits->PrintAllHits();
+    // const int si_col_id
+    //    = G4SDManager::GetSDMpointer()->GetHCtable()->GetCollectionID(
+    //        "si_collection");
+    // const auto hits = event->GetHCofThisEvent()->GetHC(si_col_id);
+    //
+    //// Get deposited energy from hit collection
+    // hits->PrintAllHits();
 }

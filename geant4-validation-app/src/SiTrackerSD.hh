@@ -21,12 +21,13 @@ class SiTrackerSD : public G4VSensitiveDetector
     SiTrackerSD(G4String name, G4String collection_name);
     ~SiTrackerSD();
 
+    void   Initialize(G4HCofThisEvent* hit_col_of_evt) override;
     G4bool ProcessHits(G4Step* step, G4TouchableHistory* touch_hist) override;
-
-    // Maybe these won't be used
-    void Initialize(G4HCofThisEvent* hit_col_of_evt) override;
-    void EndOfEvent(G4HCofThisEvent* hit_col_of_evt) override;
+    void   EndOfEvent(G4HCofThisEvent* hit_col_of_evt) override;
 
   private:
-    TrackerHitsCollection* hit_collection_;
+    TrackerHitsCollection*     hit_collection_0;
+    CalorimeterHitsCollection* hit_collection_1;
+    static const int           si_tracker_sd_id     = 0;
+    static const int           em_calorimeter_sd_id = 0;
 };

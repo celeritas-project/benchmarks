@@ -10,6 +10,7 @@
 
 #include <G4VHit.hh>
 #include <G4THitsCollection.hh>
+#include <G4ThreeVector.hh>
 
 //---------------------------------------------------------------------------//
 /*!
@@ -22,9 +23,13 @@ class TrackerHit : public G4VHit
     ~TrackerHit();
 
     void add_energy_dep(const double energy);
+    void print();
 
-  private:
-    double energy_dep_;
+  public:
+    double        energy_dep_;
+    int           track_id_;
+    G4ThreeVector hit_position_;
 };
 
 typedef G4THitsCollection<TrackerHit> TrackerHitsCollection;
+typedef G4THitsCollection<TrackerHit> CalorimeterHitsCollection;

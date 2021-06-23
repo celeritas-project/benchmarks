@@ -3,19 +3,21 @@
     "export_gdml": "",
     "GUI": true,
     "vis_macro": "vis.mac",
-    "events": "10",
+    "events": "1",
     "step_info": true,
     "cumulative":
     {
         "dedx": [100, 0, 100]
     },
-    "primary": {
+    "primary": 
+    {
         "pdg": 22,
         "energy": 10,
         "vertex": [0, 0, 0],
-        "direction": [0, 0, 1]
+        "direction": [1, 1, 1]
     },
-    "physics": {
+    "physics":
+    {
         "compton_scattering": true,
         "photoelectric": false,
         "rayleigh": false,

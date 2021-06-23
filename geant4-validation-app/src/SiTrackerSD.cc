@@ -28,7 +28,9 @@ SiTrackerSD::~SiTrackerSD() = default;
  */
 G4bool SiTrackerSD::ProcessHits(G4Step* step, G4TouchableHistory* touch_hist)
 {
-    if (const double edep = step->GetTotalEnergyDeposit())
+    if (const double edep = step->GetTotalEnergyDeposit()
+                            && G4VSensitiveDetector::SensitiveDetectorName
+                                   == "si_tracker_sd")
     {
         const auto lv_name = step->GetPreStepPoint()
                                  ->GetPhysicalVolume()
@@ -37,8 +39,10 @@ G4bool SiTrackerSD::ProcessHits(G4Step* step, G4TouchableHistory* touch_hist)
 
         TrackerHit* hit = new TrackerHit();
         hit->add_energy_dep(edep);
-        hit_collection_->insert(hit);
-        //std::cout << "hit is processed " << edep << std::endl;
+        hit->track_id_     = step->GetTrack()->GetTrackID();
+        hit->hit_position_ = step->GetPostStepPoint()->GetPosition();
+        hit_collection_0->insert(hit);
+        std::cout << "hit is processed " << edep << std::endl;
 
         return true;
     }
@@ -51,13 +55,30 @@ G4bool SiTrackerSD::ProcessHits(G4Step* step, G4TouchableHistory* touch_hist)
  */
 void SiTrackerSD::Initialize(G4HCofThisEvent* hit_col_of_evt)
 {
-    hit_collection_ = new TrackerHitsCollection(
-        G4VSensitiveDetector::SensitiveDetectorName, collectionName[0]);
+    std::cout << "INITIALIZE SITRACKERSD " << std::endl;
+    std::cout << "SensitiveDetectorName " << SensitiveDetectorName << std::endl;
 
-    int hit_collection_id
-        = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
+    if (G4VSensitiveDetector::SensitiveDetectorName == "si_tracker_sd")
+    {
+        hit_collection_0 = new TrackerHitsCollection(
+            G4VSensitiveDetector::SensitiveDetectorName, collectionName[0]);
 
-    hit_col_of_evt->AddHitsCollection(hit_collection_id, hit_collection_);
+        int hit_collection_id
+            = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
+
+        hit_col_of_evt->AddHitsCollection(hit_collection_id, hit_collection_0);
+    }
+    else
+    {
+        std::cout << "I can record another SD" << std::endl;
+        hit_collection_1 = new TrackerHitsCollection(
+            G4VSensitiveDetector::SensitiveDetectorName, collectionName[1]);
+
+        int hit_collection_id
+            = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[1]);
+
+        hit_col_of_evt->AddHitsCollection(hit_collection_id, hit_collection_1);
+    }
 }
 
 //---------------------------------------------------------------------------//
@@ -68,4 +89,16 @@ void SiTrackerSD::EndOfEvent(G4HCofThisEvent* hit_col_of_evt)
 {
     // TODO: Fill ROOT hit data here or in EventAction::EndOfEventAction()?
     std::cout << "end of event" << std::endl;
+#if 0
+    const auto n_hits = hit_collection_0->entries();
+
+    std::cout << "hc_name   : " << hit_collection_0->GetName() << std::endl;
+    std::cout << "hc_sd_name: " << hit_collection_0->GetSDname() << std::endl;
+    std::cout << "hc_id     : " << hit_collection_0->GetColID() << std::endl;
+
+    for (int i = 0; i < hit_collection_0->entries(); i++)
+    {
+        (*hit_collection_0)[i]->print();
+    }
+#endif
 }
