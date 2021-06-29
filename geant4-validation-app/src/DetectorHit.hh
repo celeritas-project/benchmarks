@@ -3,8 +3,8 @@
 // See the top-level COPYRIGHT file for details.
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
-//! \file TrackerHit.hh
-//! \brief Silicon Tracker sensitive detector hit
+//! \file DetectorHit.hh
+//! \brief Sensitive detector hit
 //---------------------------------------------------------------------------//
 #pragma once
 
@@ -12,24 +12,26 @@
 #include <G4THitsCollection.hh>
 #include <G4ThreeVector.hh>
 
+#include "Event.hh"
+
+using utils::HitData;
+
 //---------------------------------------------------------------------------//
 /*!
- * Define interface for the Silicon Tracker Sensitive detector hits
+ * Interface for sensitive detector hits.
  */
-class TrackerHit : public G4VHit
+class DetectorHit : public G4VHit
 {
-  public:
-    TrackerHit();
-    ~TrackerHit();
 
-    void add_energy_dep(const double energy);
+  public:
+    DetectorHit(HitData& hit);
+    DetectorHit();
+    ~DetectorHit();
+
     void print();
 
   public:
-    double        energy_dep_;
-    int           track_id_;
-    G4ThreeVector hit_position_;
+    HitData hit_;
 };
 
-typedef G4THitsCollection<TrackerHit> TrackerHitsCollection;
-typedef G4THitsCollection<TrackerHit> CalorimeterHitsCollection;
+typedef G4THitsCollection<DetectorHit> HitsCollection;

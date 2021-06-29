@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------//
 #include "DetectorConstruction.hh"
 #include "SiTrackerSD.hh"
+#include "EmCalorimeterSD.hh"
 
 #include <G4NistManager.hh>
 #include <G4Box.hh>
@@ -48,19 +49,19 @@ void DetectorConstruction::ConstructSDandField()
 {
     // List of sensitive detectors
     SiTrackerSD* si_tracker_sd
-        = new SiTrackerSD("si_tracker_sd", "si_collection");
-    SiTrackerSD* calorimeter_sd
-        = new SiTrackerSD("calorimeter_sd", "calo_collection");
+        = new SiTrackerSD("si_tracker_sd", "si_tracker_hit_col");
+    EmCalorimeterSD* em_calorimeter_sd
+        = new EmCalorimeterSD("em_calorimeter_sd", "em_calorimeter_hit_col");
 
     // Add SD to manager
     G4SDManager::GetSDMpointer()->AddNewDetector(si_tracker_sd);
-    G4SDManager::GetSDMpointer()->AddNewDetector(calorimeter_sd);
+    G4SDManager::GetSDMpointer()->AddNewDetector(em_calorimeter_sd);
 
     // Make logical volume si_tracker_lv a sensitive detector
     G4VUserDetectorConstruction::SetSensitiveDetector("si_tracker_lv",
                                                       si_tracker_sd);
     G4VUserDetectorConstruction::SetSensitiveDetector("em_calorimeter_lv",
-                                                      calorimeter_sd);
+                                                      em_calorimeter_sd);
 }
 
 //---------------------------------------------------------------------------//

@@ -82,12 +82,28 @@ struct Vertex
     double             global_time; //!< [s]
 };
 
+struct HitData
+{
+    unsigned int track_id;
+    unsigned int parent_id;
+    double       energy_deposition;
+    Vector3      position;
+    Vector3      direction;
+};
+
+struct SensitiveDetectorScore
+{
+    std::string          sensitive_detector_name;
+    std::vector<HitData> hits;
+};
+
 struct Event
 {
-    int                 id;
-    Track               primary;
-    std::vector<Track>  secondaries;
-    std::vector<Vertex> vertices;
+    int                                 id;
+    Track                               primary;
+    std::vector<Track>                  secondaries;
+    std::vector<Vertex>                 vertices;
+    std::vector<SensitiveDetectorScore> sensitive_detectors;
 };
 
 //---------------------------------------------------------------------------//

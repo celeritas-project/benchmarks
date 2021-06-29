@@ -3,59 +3,56 @@
 // See the top-level COPYRIGHT file for details.
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
-//! \file SiTrackerSD.cc
+//! \file EmCalorimeterSD.cc
 //---------------------------------------------------------------------------//
-#include "SiTrackerSD.hh"
+#include "EmCalorimeterSD.hh"
 
 #include <G4SDManager.hh>
 #include <G4SystemOfUnits.hh>
 
 //---------------------------------------------------------------------------//
 /*!
- * Constructor with sensitive detector and hit collection names.
+ * Constructor and default destructor.
  */
-SiTrackerSD::SiTrackerSD(G4String sd_name, G4String hc_name)
-    : G4VSensitiveDetector(sd_name), hit_collection_(nullptr)
+EmCalorimeterSD::EmCalorimeterSD(G4String name, G4String collection_name)
+    : G4VSensitiveDetector(name)
 {
-    // collectionName is a vector<string> and insert() is just a push_back()
-    G4VSensitiveDetector::collectionName.insert(hc_name);
+    G4VSensitiveDetector::collectionName.insert(collection_name);
 }
 
 //---------------------------------------------------------------------------//
-SiTrackerSD::~SiTrackerSD() = default;
+EmCalorimeterSD::~EmCalorimeterSD() = default;
 
 //---------------------------------------------------------------------------//
 /*!
- * Called at the beginning of each event.
+ * Optional initialize function.
  */
-void SiTrackerSD::Initialize(G4HCofThisEvent* hit_col_of_evt)
+void EmCalorimeterSD::Initialize(G4HCofThisEvent* hit_col_of_evt)
 {
-    std::cout << "INITIALIZE SITRACKERSD " << std::endl;
-    std::cout << "SensitiveDetectorName "
-              << G4VSensitiveDetector::SensitiveDetectorName << std::endl;
+    std::cout << "INITIALIZE EMCALORIMETERSD " << std::endl;
+    std::cout << "SensitiveDetectorName " << SensitiveDetectorName << std::endl;
+    hit_collection_ = new HitsCollection(
+        G4VSensitiveDetector::SensitiveDetectorName, collectionName[0]);
 
-    hit_collection_
-        = new HitsCollection(G4VSensitiveDetector::SensitiveDetectorName,
-                             G4VSensitiveDetector::collectionName.front());
-
-    int hit_collection_id = G4SDManager::GetSDMpointer()->GetCollectionID(
-        collectionName.front());
+    int hit_collection_id
+        = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
 
     hit_col_of_evt->AddHitsCollection(hit_collection_id, hit_collection_);
 }
 
 //---------------------------------------------------------------------------//
 /*!
- * Called at each step.
+ * Mandatory function called at each step.
  */
-G4bool SiTrackerSD::ProcessHits(G4Step* step, G4TouchableHistory* touch_hist)
+G4bool
+EmCalorimeterSD::ProcessHits(G4Step* step, G4TouchableHistory* touch_hist)
 {
     if (const double edep = step->GetTotalEnergyDeposit())
     {
-        G4ThreeVector  pos = step->GetPostStepPoint()->GetPosition() * cm;
+        G4ThreeVector  pos = step->GetPostStepPoint()->GetPosition();
         G4ThreeVector  dir = step->GetPostStepPoint()->GetMomentumDirection();
         utils::HitData hit_data;
-        hit_data.energy_deposition = edep * MeV;
+        hit_data.energy_deposition = edep;
         hit_data.track_id          = step->GetTrack()->GetTrackID();
         hit_data.parent_id         = step->GetTrack()->GetParentID();
         hit_data.position          = {pos.x(), pos.y(), pos.z()};
@@ -72,12 +69,12 @@ G4bool SiTrackerSD::ProcessHits(G4Step* step, G4TouchableHistory* touch_hist)
 
 //---------------------------------------------------------------------------//
 /*!
- * Optional function called at the end of event.
+ * Optional end of event function.
  */
-void SiTrackerSD::EndOfEvent(G4HCofThisEvent* hit_col_of_evt)
+void EmCalorimeterSD::EndOfEvent(G4HCofThisEvent* hit_col_of_evt)
 {
     // TODO: Fill ROOT hit data here or in EventAction::EndOfEventAction()?
-    std::cout << "end of event SiTrackerSD" << std::endl;
+    std::cout << "end of event EmCalorimeterSD" << std::endl;
 
     std::cout << "hc size " << hit_collection_->GetSize() << std::endl;
 

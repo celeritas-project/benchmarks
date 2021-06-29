@@ -3,24 +3,23 @@
 // See the top-level COPYRIGHT file for details.
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
-//! \file SiTrackerSD.hh
-//! \brief Silicon Tracker sensitive detector
+//! \file EmCalorimeterSD.hh
+//! \brief Electromagnetic Calorimeter sensitive detector
 //---------------------------------------------------------------------------//
 #pragma once
 
-#include <map>
 #include <G4VSensitiveDetector.hh>
 #include "DetectorHit.hh"
 
 //---------------------------------------------------------------------------//
 /*!
- * Define interface for the Silicon Tracker Sensitive detector.
+ * Define interface for the EM Calorimeter Sensitive detector.
  */
-class SiTrackerSD : public G4VSensitiveDetector
+class EmCalorimeterSD : public G4VSensitiveDetector
 {
   public:
-    SiTrackerSD(G4String name, G4String collection_name);
-    ~SiTrackerSD();
+    EmCalorimeterSD(G4String name, G4String collection_name);
+    ~EmCalorimeterSD();
 
     // Optional. Called at the beginning of each event
     void Initialize(G4HCofThisEvent* hit_col_of_evt) override;
