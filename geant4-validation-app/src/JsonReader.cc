@@ -40,7 +40,7 @@ void JsonReader::construct(std::ifstream& json_filename)
 /*!
  * Get static JsonReader instance. 
  *
- * \c JsonReader::construct() *MUST* be called before this.
+ * \c JsonReader::construct(ifstream_file) *MUST* be called before this.
  */
 JsonReader* JsonReader::get_instance()
 {

@@ -18,6 +18,7 @@
 #include "src/PhysicsList.hh"
 #include "src/ActionInitialization.hh"
 #include "src/JsonReader.hh"
+#include "src/HepMC3Reader.hh"
 
 //---------------------------------------------------------------------------//
 /*!
@@ -42,6 +43,17 @@ int main(int argc, char** argv)
     std::ifstream input_stream(argv[1]);
     JsonReader::construct(input_stream);
     const auto json = JsonReader::get_instance()->json();
+
+    ////////////////////////////////////////
+    // TEST
+    HepMC3Reader::construct_reader();
+    const auto hmc3r = HepMC3Reader::get_instance();
+
+    std::cout << hmc3r->get_number_of_events() << std::endl;
+    std::cout << hmc3r->read_event() << std::endl;
+    auto particles = hmc3r->get_event_particles();
+    std::cout << particles.size() << std::endl;
+    ////////////////////////////////////////
 
     // Initialize run manager
     G4RunManager run_manager;
@@ -78,14 +90,16 @@ int main(int argc, char** argv)
     // Run events
     std::string run_beamOn = "/run/beamOn "
                              + json.at("events").get<std::string>();
+
     ui_manager->ApplyCommand(run_beamOn.c_str());
 
     // Export gdml
-    const std::string export_gdml = json.at("export_gdml").get<std::string>();
-    if (!export_gdml.empty())
+    const bool export_gdml = json.at("export_gdml").get<bool>();
+    if (export_gdml)
     {
         G4GDMLParser parser;
-        std::string export_cmd = "/persistency/gdml/write " + export_gdml;
+        std::string  gdml_name  = "simple_cms.gdml";
+        std::string  export_cmd = "/persistency/gdml/write " + gdml_name;
         ui_manager->ApplyCommand("/persistency/gdml/export_SD true");
         ui_manager->ApplyCommand("/persistency/gdml/export_Ecuts true");
         ui_manager->ApplyCommand(export_cmd);

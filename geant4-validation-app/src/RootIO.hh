@@ -32,7 +32,7 @@ class RootIO
 {
   public:
     // Construct by creating singleton and creating the ROOT file
-    static void construct();
+    static void construct_io();
 
     // Get singleton instance
     static RootIO* get_instance();

@@ -38,7 +38,7 @@ RunAction::~RunAction() = default;
  */
 void RunAction::BeginOfRunAction(const G4Run*)
 {
-    RootIO::construct();
+    RootIO::construct_io();
 }
 
 //---------------------------------------------------------------------------//

@@ -24,7 +24,7 @@ static RootIO* rootio_singleton = nullptr;
 /*!
  * Constructor singleton.
  */
-void RootIO::construct()
+void RootIO::construct_io()
 {
     if (!rootio_singleton)
     {
@@ -39,7 +39,7 @@ void RootIO::construct()
 
 //---------------------------------------------------------------------------//
 /*!
- * Get static RootIO instance. \c construct() *MUST* be called before this.
+ * Get static RootIO instance. \c construct_io() *MUST* be called before this.
  */
 RootIO* RootIO::get_instance()
 {

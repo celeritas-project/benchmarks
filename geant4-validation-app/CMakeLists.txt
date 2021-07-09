@@ -22,6 +22,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(Geant4 REQUIRED vis_all)
 find_package(ROOT REQUIRED)
 find_package(nlohmann_json REQUIRED)
+find_package(HepMC3 REQUIRED)
 
 #----------------------------------------------------------------------------#
 # Generate ROOT dictionary
@@ -31,7 +32,8 @@ include(${ROOT_USE_FILE})
 root_generate_dictionary(RootInterface
   ${PROJECT_SOURCE_DIR}/src/Event.hh 
   MODULE event
-  LINKDEF ${PROJECT_SOURCE_DIR}/src/RootInterfaceLinkDef.hh)
+  LINKDEF ${PROJECT_SOURCE_DIR}/src/RootInterfaceLinkDef.hh
+)
 
 add_library(event SHARED ${PROJECT_SOURCE_DIR}/src/Event.hh RootInterface.cxx)
 target_link_libraries(event PUBLIC ${ROOT_LIBRARIES})
@@ -51,13 +53,17 @@ target_include_directories(g4app PRIVATE
  ${PROJECT_SOURCE_DIR}/src
  ${Geant4_INCLUDE_DIR}
  ${ROOT_INCLUDE_DIR}
- ${NLOHMANN_SOURCE_DIR}/include)
+ ${NLOHMANN_SOURCE_DIR}/include
+ ${HEPMC3_INCLUDE_DIR}
+)
 
 target_link_libraries(g4app PRIVATE
   ${Geant4_LIBRARIES}
+  ${HEPMC3_LIB}
   ROOT::Core
   nlohmann_json::nlohmann_json
-  event)
+  event
+)
 
 #----------------------------------------------------------------------------#
 # Install the executable in the current directory
@@ -69,4 +75,5 @@ install(TARGETS g4app DESTINATION .)
 #----------------------------------------------------------------------------#
 configure_file(${PROJECT_SOURCE_DIR}/vis.mac ${PROJECT_BINARY_DIR} COPYONLY)
 configure_file(${PROJECT_SOURCE_DIR}/input_example.json 
-  ${PROJECT_BINARY_DIR} COPYONLY)
+  ${PROJECT_BINARY_DIR} COPYONLY
+)
