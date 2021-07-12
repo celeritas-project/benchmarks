@@ -27,6 +27,9 @@ RunAction::RunAction() : G4UserRunAction()
     {
         G4RunManager::GetRunManager()->SetPrintProgress(n_evts);
     }
+
+    // Initialize ROOT I/O
+    RootIO::construct();
 }
 
 //---------------------------------------------------------------------------//
@@ -36,10 +39,7 @@ RunAction::~RunAction() = default;
 /*!
  * Create ROOT file and its ntuple structure.
  */
-void RunAction::BeginOfRunAction(const G4Run*)
-{
-    RootIO::construct_io();
-}
+void RunAction::BeginOfRunAction(const G4Run*) {}
 
 //---------------------------------------------------------------------------//
 /*!

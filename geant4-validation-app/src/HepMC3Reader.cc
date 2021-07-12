@@ -27,7 +27,7 @@ static HepMC3Reader* hepmc3_singleton = nullptr;
 /*!
  * Constructor singleton.
  */
-void HepMC3Reader::construct_reader()
+void HepMC3Reader::construct()
 {
     if (!hepmc3_singleton)
     {
@@ -70,12 +70,32 @@ bool HepMC3Reader::read_event()
 
 //---------------------------------------------------------------------------//
 /*!
- * Return the list of particles from the currently loaded event.
+ * Return the list of particles of the currently loaded event.
  */
-HepMC3::GenParticles HepMC3Reader::get_event_particles()
+HepMC3::GenParticles HepMC3Reader::event_particles()
 {
     assert(gen_event_);
     return gen_event_->particles();
+}
+
+//---------------------------------------------------------------------------//
+/*!
+ * Return the list of vertices of the currently loaded event.
+ */
+std::vector<HepMC3::GenVertexPtr> HepMC3Reader::event_vertices()
+{
+    assert(gen_event_);
+    return gen_event_->vertices();
+}
+
+//---------------------------------------------------------------------------//
+/*!
+ * Return the current event number.
+ */
+size_t HepMC3Reader::event_number()
+{
+    assert(gen_event_);
+    return gen_event_->event_number();
 }
 
 //---------------------------------------------------------------------------//
@@ -88,8 +108,10 @@ HepMC3::GenParticles HepMC3Reader::get_event_particles()
  */
 HepMC3Reader::HepMC3Reader() : number_of_events_(-1)
 {
-    const auto  json  = JsonReader::get_instance()->json();
-    std::string input = json.at("simulation").at("hepmc3").get<std::string>();
+    // Load input
+    const auto json  = JsonReader::get_instance()->json();
+    const auto input = json.at("simulation").at("hepmc3").get<std::string>();
+    input_file_      = HepMC3::deduce_reader(input);
 
     // Fetch total number of events
     const auto file = HepMC3::deduce_reader(input);
@@ -103,7 +125,4 @@ HepMC3Reader::HepMC3Reader() : number_of_events_(-1)
         file->read_event(gen_event);
         number_of_events_++;
     }
-
-    // Reload input to start reading it
-    input_file_ = HepMC3::deduce_reader(input);
 }

@@ -8,10 +8,10 @@
 //---------------------------------------------------------------------------//
 #pragma once
 
+#include <memory>
 #include <G4VUserPrimaryGeneratorAction.hh>
 #include <G4Event.hh>
 #include <G4ParticleGun.hh>
-#include <G4VPrimaryGenerator.hh>
 
 //---------------------------------------------------------------------------//
 /*!
@@ -38,6 +38,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
         G4ThreeVector direction;
     };
 
-    std::shared_ptr<G4ParticleGun>       particle_gun_;
-    std::shared_ptr<G4VPrimaryGenerator> hepmc3_;
+    std::shared_ptr<G4ParticleGun> particle_gun_;
+    bool is_hepmc3_;
 };

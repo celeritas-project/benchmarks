@@ -29,10 +29,10 @@ ActionInitialization::~ActionInitialization() = default;
  */
 void ActionInitialization::Build() const
 {
-    SetUserAction(new RunAction());              // Create root file
+    SetUserAction(new RunAction());              // Manage root file
     SetUserAction(new PrimaryGeneratorAction()); // Set particle gun
     SetUserAction(new EventAction());            // Set event rules
     SetUserAction(new TrackingAction());         // Save track info
-    SetUserAction(new SteppingAction());         // save step data
+    SetUserAction(new SteppingAction());         // Save step data
     // SetUserAction(new StackingAction());      // Kill secondaries
 }

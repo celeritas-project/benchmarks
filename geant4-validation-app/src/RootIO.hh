@@ -22,17 +22,17 @@
  * ROOT I/O interface. It creates a singleton to manage data provided by
  * different Geant4 classes.
  *
- * Use \c RootIO::construct("output.root") to create the ROOT file at the
- * beginning of the simulation run. Call \c RootIO::get_instance() to get
- * access to the constructed RootIO object from any class method.
- * Write the TFile to disk and close it at the end of the simulation run, in
+ * Use \c RootIO::construct() to create the ROOT file at the beginning of the
+ * simulation run. Call \c RootIO::get_instance() to get access to the
+ * constructed RootIO object from any class method. Write the TFile to disk and
+ * close it at the end of the simulation run, in
  * \c RunAction::EndOfRunAction(...) .
  */
 class RootIO
 {
   public:
     // Construct by creating singleton and creating the ROOT file
-    static void construct_io();
+    static void construct();
 
     // Get singleton instance
     static RootIO* get_instance();

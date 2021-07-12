@@ -24,7 +24,7 @@ static RootIO* rootio_singleton = nullptr;
 /*!
  * Constructor singleton.
  */
-void RootIO::construct_io()
+void RootIO::construct()
 {
     if (!rootio_singleton)
     {

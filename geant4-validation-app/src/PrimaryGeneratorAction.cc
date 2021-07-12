@@ -24,22 +24,18 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
     std::string hepmc3_input
         = json_input.at("simulation").at("hepmc3").get<std::string>();
 
-    // TEMPORARILY DISABLED
-#if 0
-    if (hepmc3_input.empty())
+    is_hepmc3_ = hepmc3_input.empty() ? false : true;
+
+    if (is_hepmc3_)
+    {
+        // Use HepMC3 input
+        HepMC3Reader::construct();
+    }
+    else
     {
         // No HepMC3 input file provided; use particle gun
         this->set_particle_gun();
     }
-
-    else
-    {
-        // Use HepMC3 input
-        this->set_hepmc3();
-    }
-#endif
-
-    this->set_particle_gun();
 }
 
 //---------------------------------------------------------------------------//
@@ -54,7 +50,19 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction() = default;
  */
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
-    particle_gun_->GeneratePrimaryVertex(event);
+    if (is_hepmc3_)
+    {
+        const auto hepmc3 = HepMC3Reader::get_instance();
+
+        // Read event and set appropriate conditions
+        hepmc3->read_event();
+
+        auto primaries = hepmc3->event_particles();
+    }
+    else
+    {
+        particle_gun_->GeneratePrimaryVertex(event);
+    }
 }
 
 //---------------------------------------------------------------------------//

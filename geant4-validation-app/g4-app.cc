@@ -46,13 +46,15 @@ int main(int argc, char** argv)
 
     ////////////////////////////////////////
     // TEST
-    HepMC3Reader::construct_reader();
+    HepMC3Reader::construct();
     const auto hmc3r = HepMC3Reader::get_instance();
 
-    std::cout << hmc3r->get_number_of_events() << std::endl;
+    std::cout << hmc3r->number_of_events() << std::endl;
     std::cout << hmc3r->read_event() << std::endl;
-    auto particles = hmc3r->get_event_particles();
+    auto particles = hmc3r->event_particles();
     std::cout << particles.size() << std::endl;
+    auto vertices = hmc3r->event_vertices();
+    std::cout << vertices.size() << std::endl;
     ////////////////////////////////////////
 
     // Initialize run manager
