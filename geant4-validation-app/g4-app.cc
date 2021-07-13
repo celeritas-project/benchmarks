@@ -24,9 +24,9 @@
 /*!
  * Small validation app. All options are selected via a json input file.
  *
- * - Load geometry (programmatically or via a gdml input)
+ * - Load geometry (simplified cms).
  * - Load physics list.
- * - Run a simulation using the particle gun.
+ * - Run a simulation using the particle gun or a hepmc3 input.
  * - Store data into a ROOT output file.
  */
 int main(int argc, char** argv)
@@ -44,18 +44,14 @@ int main(int argc, char** argv)
     JsonReader::construct(input_stream);
     const auto json = JsonReader::get_instance()->json();
 
-    ////////////////////////////////////////
-    // TEST
-    HepMC3Reader::construct();
-    const auto hmc3r = HepMC3Reader::get_instance();
+    const std::string hepmc3_input
+        = json.at("simulation").at("hepmc3").get<std::string>();
 
-    std::cout << hmc3r->number_of_events() << std::endl;
-    std::cout << hmc3r->read_event() << std::endl;
-    auto particles = hmc3r->event_particles();
-    std::cout << particles.size() << std::endl;
-    auto vertices = hmc3r->event_vertices();
-    std::cout << vertices.size() << std::endl;
-    ////////////////////////////////////////
+    if (!hepmc3_input.empty())
+    {
+        // Initialize HepMC3 reader
+        HepMC3Reader::construct();
+    }
 
     // Initialize run manager
     G4RunManager run_manager;
@@ -89,16 +85,28 @@ int main(int argc, char** argv)
         ui_manager->ApplyCommand(vis_macro);
     }
 
-    // Run events
-    std::string run_beamOn = "/run/beamOn "
-                             + json.at("events").get<std::string>();
+    // Set up the number of events to be passed to the UI manager
+    std::string run_beamOn = "/run/beamOn ";
 
+    if (hepmc3_input.empty())
+    {
+        // Use particle gun with the number of events defined in the json file
+        run_beamOn += json.at("events").get<std::string>();
+    }
+    else
+    {
+        // Use HepMC3Reader to get the correct number of events
+        run_beamOn += std::to_string(
+            HepMC3Reader::get_instance()->number_of_events());
+    }
+
+    // Run events
     ui_manager->ApplyCommand(run_beamOn.c_str());
 
-    // Export gdml
     const bool export_gdml = json.at("export_gdml").get<bool>();
     if (export_gdml)
     {
+        // Export gdml
         G4GDMLParser parser;
         std::string  gdml_name  = "simple_cms.gdml";
         std::string  export_cmd = "/persistency/gdml/write " + gdml_name;

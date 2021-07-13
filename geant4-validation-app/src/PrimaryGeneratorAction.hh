@@ -30,14 +30,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     void set_hepmc3();
 
   private:
-    struct ParticleGunSetup
-    {
-        int           pdg;
-        double        energy;
-        G4ThreeVector vertex;
-        G4ThreeVector direction;
-    };
-
     std::shared_ptr<G4ParticleGun> particle_gun_;
     bool is_hepmc3_;
 };

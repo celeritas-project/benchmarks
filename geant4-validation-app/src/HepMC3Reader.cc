@@ -53,7 +53,7 @@ HepMC3Reader* HepMC3Reader::get_instance()
 
 //---------------------------------------------------------------------------//
 /*!
- * Return the next event from file as a shared_ptr.
+ * Read the next event of the file and store its primaries.
  */
 bool HepMC3Reader::read_event()
 {
@@ -62,30 +62,24 @@ bool HepMC3Reader::read_event()
     if (input_file_->read_event(gen_event))
     {
         gen_event_ = std::make_shared<HepMC3::GenEvent>(gen_event);
+
+        const auto particles = gen_event.particles();
+        for (const auto particle : particles)
+        {
+            const auto p_data = particle->data();
+
+            utils::Primary primary;
+            primary.pdg      = p_data.pid;
+            primary.energy   = p_data.momentum.e();
+            primary.momentum = {
+                p_data.momentum.x(), p_data.momentum.y(), p_data.momentum.z()};
+            primary.vertex = {0, 0, 0};
+
+            event_primaries_.push_back(primary);
+        }
         return true;
     }
-
     return false;
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Return the list of particles of the currently loaded event.
- */
-HepMC3::GenParticles HepMC3Reader::event_particles()
-{
-    assert(gen_event_);
-    return gen_event_->particles();
-}
-
-//---------------------------------------------------------------------------//
-/*!
- * Return the list of vertices of the currently loaded event.
- */
-std::vector<HepMC3::GenVertexPtr> HepMC3Reader::event_vertices()
-{
-    assert(gen_event_);
-    return gen_event_->vertices();
 }
 
 //---------------------------------------------------------------------------//

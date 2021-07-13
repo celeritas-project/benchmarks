@@ -9,8 +9,11 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include <HepMC3/GenParticle_fwd.h>
 #include <HepMC3/GenVertex_fwd.h>
+
+#include "Event.hh"
 
 namespace HepMC3
 {
@@ -31,32 +34,26 @@ class HepMC3Reader
   public:
     // Construct by creating singleton
     static void construct();
-
     // Get singleton instance
     static HepMC3Reader* get_instance();
-
     // Get next event
     bool read_event();
-
     // Get total number of events
-    size_t number_of_events() { return number_of_events_; };
-
-    // Get the list of particles of the current event.
-    HepMC3::GenParticles event_particles();
-
-    // Get vertices of current event
-    std::vector<HepMC3::GenVertexPtr> event_vertices();
-
-    // Get event number
+    size_t number_of_events() { return number_of_events_; }
+    // Get current event number
     size_t event_number();
+    // Get primaries of current event
+    std::vector<utils::Primary>& event_primaries() { return event_primaries_; }
 
   private:
     // Store HepMC3 input file
     std::shared_ptr<HepMC3::Reader> input_file_;
-    // Total number of events
-    size_t number_of_events_;
     // Event data
     std::shared_ptr<HepMC3::GenEvent> gen_event_;
+    // List of primaries per event
+    std::vector<utils::Primary> event_primaries_;
+    // Total number of events
+    size_t number_of_events_;
 
   private:
     HepMC3Reader();

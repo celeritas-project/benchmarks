@@ -30,10 +30,6 @@ SiTrackerSD::~SiTrackerSD() = default;
  */
 void SiTrackerSD::Initialize(G4HCofThisEvent* hit_col_of_evt)
 {
-    std::cout << "INITIALIZE SITRACKERSD " << std::endl;
-    std::cout << "SensitiveDetectorName "
-              << G4VSensitiveDetector::SensitiveDetectorName << std::endl;
-
     hit_collection_
         = new HitsCollection(G4VSensitiveDetector::SensitiveDetectorName,
                              G4VSensitiveDetector::collectionName.front());
@@ -77,18 +73,11 @@ G4bool SiTrackerSD::ProcessHits(G4Step* step, G4TouchableHistory* touch_hist)
 void SiTrackerSD::EndOfEvent(G4HCofThisEvent* hit_col_of_evt)
 {
     // TODO: Fill ROOT hit data here or in EventAction::EndOfEventAction()?
-    std::cout << "end of event SiTrackerSD" << std::endl;
-
-    std::cout << "hc size " << hit_collection_->GetSize() << std::endl;
-
     const auto hit_vector = hit_collection_->GetVector();
 
     int i = 0;
     for (const auto hit : *hit_vector)
     {
-        std::cout << i << std::endl;
-        std::cout << G4VSensitiveDetector::SensitiveDetectorName << std::endl;
-        hit->print();
         i++;
     }
 }

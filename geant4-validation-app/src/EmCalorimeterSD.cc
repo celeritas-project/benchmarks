@@ -29,8 +29,6 @@ EmCalorimeterSD::~EmCalorimeterSD() = default;
  */
 void EmCalorimeterSD::Initialize(G4HCofThisEvent* hit_col_of_evt)
 {
-    std::cout << "INITIALIZE EMCALORIMETERSD " << std::endl;
-    std::cout << "SensitiveDetectorName " << SensitiveDetectorName << std::endl;
     hit_collection_ = new HitsCollection(
         G4VSensitiveDetector::SensitiveDetectorName, collectionName[0]);
 
@@ -74,18 +72,11 @@ EmCalorimeterSD::ProcessHits(G4Step* step, G4TouchableHistory* touch_hist)
 void EmCalorimeterSD::EndOfEvent(G4HCofThisEvent* hit_col_of_evt)
 {
     // TODO: Fill ROOT hit data here or in EventAction::EndOfEventAction()?
-    std::cout << "end of event EmCalorimeterSD" << std::endl;
-
-    std::cout << "hc size " << hit_collection_->GetSize() << std::endl;
-
     const auto hit_vector = hit_collection_->GetVector();
 
     int i = 0;
     for (const auto hit : *hit_vector)
     {
-        std::cout << i << std::endl;
-        std::cout << G4VSensitiveDetector::SensitiveDetectorName << std::endl;
-        hit->print();
         i++;
     }
 }

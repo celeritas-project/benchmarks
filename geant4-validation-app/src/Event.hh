@@ -3,7 +3,7 @@
 // See the top-level COPYRIGHT file for details.
 // SPDX-License-Identifier: (Apache-2.0 OR MIT)
 //---------------------------------------------------------------------------//
-//! \file Event.h
+//! \file Event.hh
 //! \brief Event structure for Geant4 ROOT files.
 //---------------------------------------------------------------------------//
 #pragma once
@@ -104,6 +104,14 @@ struct Event
     std::vector<Track>                  secondaries;
     std::vector<Vertex>                 vertices;
     std::vector<SensitiveDetectorScore> sensitive_detectors;
+};
+
+struct Primary
+{
+    int     pdg;
+    double  energy;
+    Vector3 vertex;
+    Vector3 momentum;
 };
 
 //---------------------------------------------------------------------------//
